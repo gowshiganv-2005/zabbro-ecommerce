@@ -488,8 +488,7 @@ hr {
   flex-direction: column;
   box-shadow: var(--shadow-xl);
   border-left: 1px solid var(--glass-border);
-  transition: right .35s ease;
-  overflow: hidden
+  transition: right .35s ease
 }
 
 .mini-cart.open {
@@ -501,7 +500,8 @@ hr {
   align-items: center;
   justify-content: space-between;
   padding: 24px;
-  border-bottom: 1px solid var(--border)
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0
 }
 
 .mini-cart-header h3 {
@@ -520,12 +520,13 @@ hr {
 
 .mini-cart-items {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 16px 24px;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
-  scrollbar-width: thin
+  touch-action: pan-y
 }
 
 .mini-cart-empty {
