@@ -1,0 +1,196 @@
+╔══════════════════════════════════════════════════════════════╗
+║           LUXE — Premium E-Commerce Store                    ║
+║           Complete Setup & Run Instructions                   ║
+╚══════════════════════════════════════════════════════════════╝
+
+════════════════════════════════════════════════════════════════
+  PREREQUISITES
+════════════════════════════════════════════════════════════════
+
+  1. Node.js (v18 or higher) — https://nodejs.org
+  2. npm (comes with Node.js)
+
+════════════════════════════════════════════════════════════════
+  STEP-BY-STEP SETUP
+════════════════════════════════════════════════════════════════
+
+  1. Open Terminal / Command Prompt / PowerShell
+
+  2. Navigate to the project folder:
+
+     cd d:\Documents\ZABBRO_GROUP_OF_COMPANIES\ZABBRO_DIGITAL_SOLUTIONS\ecommerce-store
+
+  3. Install all dependencies:
+
+     npm install
+
+  4. Set up the Excel database (creates all .xlsx files with initial data):
+
+     npm run setup
+
+  5. Start the server:
+
+     npm start
+
+  6. Open your browser and navigate to:
+
+     http://localhost:3000
+
+════════════════════════════════════════════════════════════════
+  AVAILABLE COMMANDS
+════════════════════════════════════════════════════════════════
+
+  npm install       → Install all project dependencies
+  npm run setup     → Create/reset Excel database files with sample data
+  npm start         → Start the production server
+  npm run dev       → Start the dev server (auto-restarts on file changes)
+
+════════════════════════════════════════════════════════════════
+  LOGIN ACCOUNTS
+════════════════════════════════════════════════════════════════
+
+  ADMIN ACCOUNT:
+    Email:    admin@store.com
+    Password: admin123
+    Access:   Full admin dashboard, product management, orders, inventory
+
+  DEMO USER:
+    Email:    demo@store.com
+    Password: demo123
+    Access:   Customer account, order history, shopping
+
+  TEST USER:
+    Email:    jane@example.com
+    Password: password123
+    Access:   Customer account, order history, shopping
+
+════════════════════════════════════════════════════════════════
+  WEBSITE PAGES
+════════════════════════════════════════════════════════════════
+
+  Home Page:           http://localhost:3000/#/
+  Shop / Products:     http://localhost:3000/#/products
+  Product Detail:      http://localhost:3000/#/product/{id}
+  Shopping Cart:       http://localhost:3000/#/cart
+  Checkout:            http://localhost:3000/#/checkout
+  Login / Sign Up:     http://localhost:3000/#/auth
+  Create Account:      http://localhost:3000/#/auth/signup
+  My Account:          http://localhost:3000/#/account
+  About Us:            http://localhost:3000/#/about
+  Admin Dashboard:     http://localhost:3000/#/admin
+  Order Confirmation:  http://localhost:3000/#/order-confirmation/{id}
+
+════════════════════════════════════════════════════════════════
+  PROJECT STRUCTURE
+════════════════════════════════════════════════════════════════
+
+  ecommerce-store/
+  ├── package.json              → Dependencies & scripts
+  ├── run.txt                   → This file
+  ├── server/
+  │   ├── server.js             → Express.js main server
+  │   ├── setup-data.js         → Database initialization script
+  │   ├── data/                 → Excel database files
+  │   │   ├── products.xlsx     → Product catalog
+  │   │   ├── users.xlsx        → User accounts
+  │   │   ├── orders.xlsx       → Order records
+  │   │   ├── inventory.xlsx    → Stock tracking
+  │   │   └── reviews.xlsx      → Product reviews
+  │   ├── routes/
+  │   │   ├── products.js       → Product API endpoints
+  │   │   ├── users.js          → Auth & user endpoints
+  │   │   ├── orders.js         → Order endpoints
+  │   │   ├── reviews.js        → Review endpoints
+  │   │   └── admin.js          → Admin dashboard endpoints
+  │   └── utils/
+  │       └── excel.js          → Excel read/write utility
+  └── public/
+      ├── index.html            → Main HTML (SPA shell)
+      ├── css/
+      │   └── styles.css        → Complete stylesheet
+      ├── js/
+      │   ├── app.js            → Router & initialization
+      │   ├── api.js            → API client
+      │   ├── store.js          → State management (cart, auth)
+      │   └── pages/
+      │       ├── home.js       → Home page
+      │       ├── products.js   → Product listing
+      │       ├── product-detail.js → Product detail
+      │       ├── cart.js       → Shopping cart
+      │       ├── checkout.js   → Checkout flow
+      │       ├── auth.js       → Login/Signup
+      │       ├── account.js    → User account dashboard
+      │       ├── about.js      → About Us page
+      │       ├── admin.js      → Admin dashboard
+      │       └── order-confirmation.js → Order confirmation
+      └── uploads/
+          └── products/         → Product image uploads
+
+════════════════════════════════════════════════════════════════
+  EXCEL DATABASE DETAILS
+════════════════════════════════════════════════════════════════
+
+  products.xlsx columns:
+    id, name, price, originalPrice, category, subcategory,
+    description, image, images, stock, rating, reviewCount,
+    featured, bestSeller, newArrival, brand, material, color, tags
+
+  users.xlsx columns:
+    id, name, email, password (hashed), role, phone, address,
+    createdAt, lastLogin
+
+  orders.xlsx columns:
+    id, userId, userName, userEmail, products (JSON),
+    subtotal, shipping, tax, total, status, shippingAddress,
+    paymentMethod, createdAt, updatedAt
+
+  inventory.xlsx columns:
+    productId, productName, currentStock, reservedStock,
+    availableStock, reorderLevel, reorderQuantity,
+    lastRestocked, supplier, status
+
+  reviews.xlsx columns:
+    id, productId, userId, userName, rating, title,
+    comment, createdAt, helpful
+
+════════════════════════════════════════════════════════════════
+  TECH STACK
+════════════════════════════════════════════════════════════════
+
+  Frontend:  HTML5, CSS3, Vanilla JavaScript (SPA)
+  Backend:   Node.js + Express.js
+  Database:  Excel (.xlsx) files via SheetJS library
+  Auth:      JWT (JSON Web Tokens) + bcrypt
+  Uploads:   Multer for file handling
+  Design:    Glassmorphism theme, Inter + Playfair Display fonts
+
+════════════════════════════════════════════════════════════════
+  TROUBLESHOOTING
+════════════════════════════════════════════════════════════════
+
+  Problem: "Port 3000 already in use"
+  Solution: Kill the existing process or change PORT:
+    set PORT=3001 && npm start
+
+  Problem: "Cannot find module" errors
+  Solution: Delete node_modules and reinstall:
+    rmdir /s /q node_modules
+    npm install
+
+  Problem: No data showing on website
+  Solution: Run the setup script:
+    npm run setup
+
+  Problem: Login not working
+  Solution: Reset user data:
+    npm run setup
+    (This recreates all Excel files)
+
+════════════════════════════════════════════════════════════════
+  CREDITS
+════════════════════════════════════════════════════════════════
+
+  Built by Zabbro Digital Solutions
+  © 2026 All Rights Reserved.
+
+════════════════════════════════════════════════════════════════

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="ZABBRO — Premium e-commerce store featuring curated lifestyle products. Discover minimalist home decor, luxury accessories, and modern electronics with free shipping.">
+  <meta name="keywords"
+    content="premium e-commerce, luxury products, minimalist home decor, accessories, electronics, curated lifestyle store">
+  <meta name="author" content="Zabbro Digital Solutions">
+  <meta name="theme-color" content="#f0f2f5">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="ZABBRO — Premium Lifestyle Store">
+  <meta property="og:description"
+    content="Curated premium products for the modern lifestyle. Quality that speaks for itself.">
+  <meta property="og:type" content="website">
+  <title>ZABBRO — Premium Lifestyle Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-content">
+      <div class="loading-logo">ZABBRO</div>
+      <div class="loading-spinner">
+        <div class="spinner-ring"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notifications -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Header -->
+  <header id="main-header" class="header">
+    <div class="header-inner container">
+      <a href="#/" class="logo" id="header-logo">ZABBRO</a>
+      <nav class="nav-desktop" id="nav-desktop">
+        <a href="#/" class="nav-link" data-page="home">Home</a>
+        <a href="#/products" class="nav-link" data-page="products">Shop</a>
+        <a href="#/products?category=Home Decor" class="nav-link" data-page="decor">Decor</a>
+        <a href="#/products?category=Electronics" class="nav-link" data-page="electronics">Electronics</a>
+        <a href="#/products?category=Accessories" class="nav-link" data-page="accessories">Accessories</a>
+        <a href="#/about" class="nav-link" data-page="about">About Us</a>
+      </nav>
+      <div class="header-actions">
+        <button class="header-btn" id="search-toggle" aria-label="Search"><i data-lucide="search"></i></button>
+        <a href="#/auth/signup" class="btn btn-sm btn-primary" id="signup-header-btn"
+          style="padding:8px 18px;font-size:.75rem">Create Account</a>
+        <button class="header-btn" id="user-menu-btn" aria-label="Account"><i data-lucide="user"></i></button>
+        <button class="header-btn cart-btn" id="cart-toggle" aria-label="Cart">
+          <i data-lucide="shopping-bag"></i>
+          <span class="cart-badge" id="cart-badge">0</span>
+        </button>
+        <button class="header-btn mobile-menu-btn" id="mobile-menu-toggle" aria-label="Menu"><i
+            data-lucide="menu"></i></button>
+      </div>
+    </div>
+    <div class="search-bar" id="search-bar">
+      <div class="container">
+        <div class="search-input-wrapper">
+          <i data-lucide="search" class="search-icon"></i>
+          <input type="text" id="search-input" class="search-input"
+            placeholder="Search for products, brands, categories..." autocomplete="off">
+          <button class="search-close" id="search-close"><i data-lucide="x"></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-nav" id="mobile-nav">
+      <a href="#/" class="mobile-nav-link" data-page="home">Home</a>
+      <a href="#/products" class="mobile-nav-link" data-page="products">Shop All</a>
+      <a href="#/products?category=Home Decor" class="mobile-nav-link">Home Decor</a>
+      <a href="#/products?category=Electronics" class="mobile-nav-link">Electronics</a>
+      <a href="#/products?category=Accessories" class="mobile-nav-link">Accessories</a>
+      <a href="#/about" class="mobile-nav-link">About Us</a>
+      <hr class="mobile-nav-divider">
+      <a href="#/auth/signup" class="mobile-nav-link">Create Account</a>
+      <a href="#/auth" class="mobile-nav-link" id="mobile-auth-link">Sign In</a>
+      <a href="#/cart" class="mobile-nav-link">Cart</a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="app" class="main-content"></main>
+
+  <!-- Mini Cart Sidebar -->
+  <div class="cart-overlay" id="cart-overlay"></div>
+  <aside class="mini-cart" id="mini-cart">
+    <div class="mini-cart-header">
+      <h3>Shopping Bag</h3>
+      <button class="mini-cart-close" id="mini-cart-close"><i data-lucide="x"></i></button>
+    </div>
+    <div class="mini-cart-items" id="mini-cart-items"></div>
+    <div class="mini-cart-footer" id="mini-cart-footer">
+      <div class="mini-cart-subtotal"><span>Subtotal</span><span id="mini-cart-total">₹0.00</span></div>
+      <a href="#/cart" class="btn btn-secondary btn-full" id="view-cart-btn">View Cart</a>
+      <a href="#/checkout" class="btn btn-primary btn-full" id="mini-checkout-btn">Checkout</a>
+    </div>
+  </aside>
+
+  <!-- Dark Footer (SEO Optimized) -->
+  <footer class="footer" id="main-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo" aria-label="ZABBRO Store">ZABBRO</div>
+          <p class="footer-tagline">Curated premium products for the modern lifestyle. Quality craftsmanship, timeless
+            design, and sustainable materials — delivered to your door.</p>
+          <div class="footer-social" aria-label="Social media links">
+            <a href="#" class="social-link" aria-label="Follow us on Instagram"><i data-lucide="instagram"></i></a>
+            <a href="#" class="social-link" aria-label="Follow us on Twitter"><i data-lucide="twitter"></i></a>
+            <a href="#" class="social-link" aria-label="Follow us on Facebook"><i data-lucide="facebook"></i></a>
+            <a href="#" class="social-link" aria-label="Follow us on YouTube"><i data-lucide="youtube"></i></a>
+          </div>
+        </div>
+        <nav class="footer-links" aria-label="Shop categories">
+          <h4>Shop</h4>
+          <a href="#/products?category=Home Decor">Home Decor</a>
+          <a href="#/products?category=Electronics">Electronics</a>
+          <a href="#/products?category=Accessories">Accessories</a>
+          <a href="#/products?category=Kitchen">Kitchen</a>
+          <a href="#/products?category=Lighting">Lighting</a>
+          <a href="#/products">All Products</a>
+        </nav>
+        <nav class="footer-links" aria-label="Company information">
+          <h4>Company</h4>
+          <a href="#/about">About Us</a>
+          <a href="#/about">Our Story</a>
+          <a href="#/about">Careers</a>
+          <a href="#/about">Press & Media</a>
+          <a href="#/about">Contact Us</a>
+        </nav>
+        <nav class="footer-links" aria-label="Customer support">
+          <h4>Support</h4>
+          <a href="#/about">Help Center</a>
+          <a href="#/about">Shipping Policy</a>
+          <a href="#/about">Return Policy</a>
+          <a href="#/about">Privacy Policy</a>
+          <a href="#/about">Terms of Service</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 ZABBRO. Crafted by <strong>Zabbro Digital Solutions</strong>. All rights reserved. | Premium
+          E-Commerce Platform</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="/js/api.js"></script>
+  <script src="/js/store.js"></script>
+  <script src="/js/pages/home.js"></script>
+  <script src="/js/pages/products.js"></script>
+  <script src="/js/pages/product-detail.js"></script>
+  <script src="/js/pages/cart.js"></script>
+  <script src="/js/pages/checkout.js"></script>
+  <script src="/js/pages/auth.js"></script>
+  <script src="/js/pages/account.js"></script>
+  <script src="/js/pages/about.js"></script>
+  <script src="/js/pages/order-confirmation.js"></script>
+  <script src="/js/pages/admin.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+
+</html>
