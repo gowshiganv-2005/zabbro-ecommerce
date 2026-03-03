@@ -148,13 +148,17 @@ router.put('/:id', (req, res) => {
             return res.status(404).json({ success: false, message: 'Product not found' });
         }
 
-        // Update inventory stock if stock changed
+        // Sync inventory when product is updated
+        const inventoryUpdates = {};
         if (req.body.stock !== undefined) {
-            updateRow('inventory.xlsx', 'productId', req.params.id, {
-                currentStock: req.body.stock,
-                availableStock: req.body.stock,
-                status: req.body.stock > 20 ? 'in_stock' : req.body.stock > 0 ? 'low_stock' : 'out_of_stock'
-            });
+            inventoryUpdates.currentStock = req.body.stock;
+            inventoryUpdates.availableStock = req.body.stock;
+            inventoryUpdates.status = req.body.stock > 20 ? 'in_stock' : req.body.stock > 0 ? 'low_stock' : 'out_of_stock';
+        }
+        if (req.body.name) inventoryUpdates.productName = req.body.name;
+        if (req.body.brand) inventoryUpdates.supplier = req.body.brand;
+        if (Object.keys(inventoryUpdates).length > 0) {
+            updateRow('inventory.xlsx', 'productId', req.params.id, inventoryUpdates);
         }
 
         const product = findRow(PRODUCTS_FILE, 'id', req.params.id);

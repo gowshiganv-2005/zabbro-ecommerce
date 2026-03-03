@@ -226,9 +226,10 @@ function openAddProductModal() {
         <div class="form-group"><label class="form-label">Stock</label><input class="form-input" id="mp-stock" type="number" value="50"></div>
       </div>
       <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="mp-desc"></textarea></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div class="form-group"><label class="form-label">Brand</label><input class="form-input" id="mp-brand"></div>
-        <div class="form-group"><label class="form-label">Material</label><input class="form-input" id="mp-material"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+        <div class="form-group"><label class="form-label">Brand</label><input class="form-input" id="mp-brand" placeholder="e.g. ZABBRO"></div>
+        <div class="form-group"><label class="form-label">Material</label><input class="form-input" id="mp-material" placeholder="e.g. Cotton"></div>
+        <div class="form-group"><label class="form-label">Color</label><input class="form-input" id="mp-color" placeholder="e.g. Black"></div>
       </div>
     </div>
     <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" id="save-product-btn">Save Product</button></div>
@@ -250,6 +251,7 @@ function openAddProductModal() {
         description: document.getElementById('mp-desc').value,
         brand: document.getElementById('mp-brand').value,
         material: document.getElementById('mp-material').value,
+        color: document.getElementById('mp-color').value,
         image: uploadedImageUrl,
         images: uploadedImageUrl,
         featured: false, bestSeller: false, newArrival: true
@@ -293,7 +295,12 @@ async function openEditProductModal(id) {
         <div class="form-group"><label class="form-label">Category</label><input class="form-input" id="mp-category" value="${p.category}"></div>
         <div class="form-group"><label class="form-label">Stock</label><input class="form-input" id="mp-stock" type="number" value="${p.stock}"></div>
       </div>
-      <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="mp-desc">${p.description}</textarea></div>
+      <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="mp-desc">${p.description || ''}</textarea></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+        <div class="form-group"><label class="form-label">Brand</label><input class="form-input" id="mp-brand" value="${p.brand || ''}"></div>
+        <div class="form-group"><label class="form-label">Material</label><input class="form-input" id="mp-material" value="${p.material || ''}"></div>
+        <div class="form-group"><label class="form-label">Color</label><input class="form-input" id="mp-color" value="${p.color || ''}"></div>
+      </div>
     </div>
     <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" id="update-product-btn">Update</button></div>
   `);
@@ -310,6 +317,9 @@ async function openEditProductModal(id) {
         category: document.getElementById('mp-category').value,
         stock: parseInt(document.getElementById('mp-stock').value),
         description: document.getElementById('mp-desc').value,
+        brand: document.getElementById('mp-brand').value,
+        material: document.getElementById('mp-material').value,
+        color: document.getElementById('mp-color').value,
         image: uploadedImageUrl,
         images: uploadedImageUrl
       });
