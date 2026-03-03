@@ -24,6 +24,11 @@ if (!fs.existsSync(UPLOADS_DIR)) {
 
 function writeExcel(filename, data, sheetName = 'Sheet1') {
     const filePath = path.join(DATA_DIR, filename);
+    // NEVER overwrite existing data files
+    if (fs.existsSync(filePath)) {
+        console.log(`⏭️  SKIPPED ${filename} — file already exists (data preserved)`);
+        return;
+    }
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);

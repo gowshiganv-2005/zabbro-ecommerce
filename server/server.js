@@ -30,11 +30,11 @@ dirs.forEach(dir => {
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 });
 
-// Auto-setup: create Excel data files if they don't exist
+// Check if data files exist (warn only, never auto-create)
 const productsFile = path.join(__dirname, 'data', 'products.xlsx');
 if (!fs.existsSync(productsFile)) {
-    console.log('📦 First run detected — setting up database...');
-    try { require('./setup-data'); } catch (e) { console.error('Setup error:', e.message); }
+    console.warn('⚠️  No data files found. Run "npm run setup" to create initial data.');
+    console.warn('⚠️  The server will work but with empty data until setup is run.');
 }
 
 // Request logging

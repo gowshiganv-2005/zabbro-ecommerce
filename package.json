@@ -5,7 +5,7 @@
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",
-    "dev": "node --watch server/server.js",
+    "dev": "node --watch-path=server/routes --watch-path=server/utils --watch-path=server/server.js server/server.js",
     "setup": "node server/setup-data.js"
   },
   "dependencies": {
