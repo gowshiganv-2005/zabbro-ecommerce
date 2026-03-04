@@ -40,7 +40,7 @@ async function getSheetData(sheetName) {
   try {
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${sheetName}!A:Z`,
+      range: `${sheetName}`, // Get whole sheet accurately
     });
     const rows = response.data.values;
     if (!rows || rows.length === 0) return [];
@@ -81,7 +81,7 @@ async function setSheetData(sheetName, data) {
 
   try {
     if (!data || data.length === 0) {
-      await sheets.spreadsheets.values.clear({ spreadsheetId: SPREADSHEET_ID, range: `${sheetName}!A:Z` });
+      await sheets.spreadsheets.values.clear({ spreadsheetId: SPREADSHEET_ID, range: `${sheetName}` });
       return true;
     }
 
@@ -97,7 +97,7 @@ async function setSheetData(sheetName, data) {
     }))];
 
     // Clear whole sheet first to avoid ghost rows from previous longer data
-    await sheets.spreadsheets.values.clear({ spreadsheetId: SPREADSHEET_ID, range: `${sheetName}!A:Z` });
+    await sheets.spreadsheets.values.clear({ spreadsheetId: SPREADSHEET_ID, range: `${sheetName}` });
 
     await sheets.spreadsheets.values.update({
       spreadsheetId: SPREADSHEET_ID,
@@ -107,6 +107,10 @@ async function setSheetData(sheetName, data) {
     });
     return true;
   } catch (error) {
+    if (error.response) {
+      console.error(`❌ Sheet Write Error (${sheetName}) Details:`, JSON.stringify(error.response.data));
+      throw new Error(`Google Sheets API Error: ${error.response.data.error.message} (Status: ${error.response.status})`);
+    }
     console.error(`❌ Sheet Write Error (${sheetName}):`, error.message);
     throw error;
   }
@@ -116,9 +120,46 @@ async function readExcel(filename) { return await getSheetData(SHEET_MAP[filenam
 async function writeExcel(filename, data) { return await setSheetData(SHEET_MAP[filename], data); }
 
 async function appendRow(filename, row) {
-  const currentData = await readExcel(filename);
-  currentData.push(row);
-  return await writeExcel(filename, currentData);
+  const sheetName = SHEET_MAP[filename];
+  if (!sheetName) throw new Error(`Sheet not mapped for ${filename}`);
+
+  // 1. Get current headers to ensure we align the row data correctly
+  const data = await readExcel(filename);
+  const headerSet = new Set();
+  if (data.length > 0) {
+    Object.keys(data[0]).forEach(k => headerSet.add(k));
+  }
+  // Add any new keys from the new row
+  Object.keys(row).forEach(k => headerSet.add(k));
+  const headers = Array.from(headerSet);
+
+  // 2. If the sheet was empty, we need to write headers first
+  if (data.length === 0) {
+    await writeExcel(filename, [row]);
+    return true;
+  }
+
+  // 3. Otherwise, use the atomic append API
+  const rowArray = headers.map(h => {
+    const val = row[h];
+    if (typeof val === 'object' && val !== null) return JSON.stringify(val);
+    return val === undefined || val === null ? '' : val;
+  });
+
+  try {
+    await sheets.spreadsheets.values.append({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${sheetName}!A1`,
+      valueInputOption: 'USER_ENTERED',
+      resource: { values: [rowArray] },
+    });
+    return true;
+  } catch (error) {
+    console.error(`❌ Atomic Append Error (${sheetName}):`, error.message);
+    // Fallback to full rewrite if append fails (e.g. range issues)
+    data.push(row);
+    return await writeExcel(filename, data);
+  }
 }
 
 async function updateRow(filename, matchField, matchValue, updates) {

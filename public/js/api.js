@@ -23,7 +23,7 @@ const API = {
                 const text = await res.text();
                 throw new Error(res.ok ? text : `Server error (${res.status}): ${text.slice(0, 100)}`);
             }
-            if (!res.ok) throw new Error(data.message || 'Request failed');
+            if (!res.ok) throw new Error(data.details || data.message || 'Request failed');
             return data;
         } catch (err) {
             console.error(`API Error [${endpoint}]:`, err);

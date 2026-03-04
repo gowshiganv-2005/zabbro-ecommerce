@@ -151,7 +151,14 @@ router.post('/', adminAuth, async (req, res) => {
 
         res.status(201).json({ success: true, data: newProduct, message: 'Product created successfully' });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Failed to create product', error: error.message });
+        console.error('🔥 PRODUCT CREATE ERROR:', error);
+        console.error('Body:', JSON.stringify(req.body));
+        res.status(500).json({
+            success: false,
+            message: 'Failed to create product',
+            details: error.message,
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        });
     }
 });
 
