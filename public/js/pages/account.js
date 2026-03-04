@@ -52,7 +52,10 @@ async function loadAccountTab(tab) {
         <div class="form-group"><label class="form-label">Email</label><input class="form-input" value="${user.email || ''}" disabled style="opacity:.6"></div>
         <div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="acc-phone" value="${user.phone || ''}" placeholder="+1 (555) 000-0000"></div>
         <div class="form-group"><label class="form-label">Address</label><input class="form-input" id="acc-address" value="${user.address || ''}" placeholder="Your shipping address"></div>
-        <button class="btn btn-primary" id="save-profile-btn">Save Changes</button>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px">
+          <button class="btn btn-primary" id="save-profile-btn">Save Changes</button>
+          <button class="btn btn-sm btn-ghost" style="color:var(--danger)" onclick="deleteMyAccount()">Delete Account</button>
+        </div>
       </div>
     `;
     document.getElementById('save-profile-btn')?.addEventListener('click', async () => {
@@ -120,4 +123,14 @@ async function deleteOrderHistory(id) {
     Toast.show('Order removed from history', 'success');
     loadAccountTab('orders');
   } catch (e) { Toast.show(e.message, 'error'); }
+}
+
+async function deleteMyAccount() {
+  const user = Store.getUser();
+  if (!confirm('Are you sure you want to delete your account? This will permanently remove your profile and data.')) return;
+  try {
+    await API.users.delete(user.id);
+    Toast.show('Account deleted successfully', 'success');
+    Store.logout();
+  } catch (e) { Toast.show(e.message || 'Failed to delete account', 'error'); }
 }

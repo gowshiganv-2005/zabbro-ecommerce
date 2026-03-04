@@ -171,19 +171,29 @@ router.get('/', async (req, res) => {
     }
 });
 
-// DELETE /api/users/:id - Delete user (Admin only)
+// DELETE /api/users/:id - Delete user (Self or Admin)
 router.delete('/:id', async (req, res) => {
     try {
         const token = req.headers.authorization?.split(' ')[1];
         if (!token) return res.status(401).json({ success: false, message: 'Authentication required' });
-        const user = jwt.verify(token, JWT_SECRET);
-        if (user.role !== 'admin') return res.status(403).json({ success: false, message: 'Admin access required' });
+
+        const decoded = jwt.verify(token, JWT_SECRET);
+
+        // Authorization: Admin can delete anyone, User can delete self
+        if (decoded.role !== 'admin' && decoded.id !== req.params.id) {
+            return res.status(403).json({ success: false, message: 'You are not authorized to delete this account' });
+        }
+
+        console.log(`👤 Account deletion request for ${req.params.id} by ${decoded.id} (${decoded.role})`);
+
         const deleted = await deleteRow(USERS_FILE, 'id', req.params.id);
         if (!deleted) {
             return res.status(404).json({ success: false, message: 'User not found' });
         }
-        res.json({ success: true, message: 'User deleted successfully' });
+
+        res.json({ success: true, message: 'Account deleted successfully' });
     } catch (error) {
+        console.error('🔥 User Delete Error:', error.message);
         res.status(500).json({ success: false, message: 'Failed to delete user' });
     }
 });

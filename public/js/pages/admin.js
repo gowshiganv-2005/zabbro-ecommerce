@@ -198,12 +198,17 @@ async function loadUsersTab(el) {
     <div class="admin-card">
       <div class="admin-card-header"><h3>Registered Users (${res.data.length})</h3></div>
       <div class="admin-card-body">
-        <table class="admin-table"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Joined</th></tr></thead><tbody>
+        <table class="admin-table"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Joined</th><th>Action</th></tr></thead><tbody>
         ${res.data.map(u => `<tr>
           <td style="font-weight:600">${u.name}</td>
           <td>${u.email}</td>
           <td><span class="status-badge ${u.role === 'admin' ? 'status-shipped' : 'status-processing'}">${u.role}</span></td>
           <td style="font-size:.8125rem">${new Date(u.createdAt).toLocaleDateString()}</td>
+          <td>
+            <button class="btn btn-sm btn-ghost" style="color:var(--danger);padding:4px" onclick="deleteUser('${u.id}')" title="Delete User">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+            </button>
+          </td>
         </tr>`).join('')}
         </tbody></table>
       </div>
@@ -447,4 +452,12 @@ function openInventoryModal(productId, currentStock, reorderLevel) {
       loadAdminTab('inventory');
     } catch (e) { Toast.show(e.message, 'error'); }
   });
+}
+async function deleteUser(id) {
+  if (!confirm('Are you sure you want to delete this user? This action cannot be undone.')) return;
+  try {
+    await API.users.delete(id);
+    Toast.show('User deleted successfully', 'success');
+    loadAdminTab('users');
+  } catch (e) { Toast.show(e.message || 'Failed to delete user', 'error'); }
 }
