@@ -1,6 +1,6 @@
 /**
  * Google Sheets Data Seeding Script
- * Populates your Google Spreadsheet with initial sample data.
+ * Populates your Google Spreadsheet with initial sample data and the Admin User.
  * Run with: npm run setup
  */
 
@@ -16,7 +16,7 @@ const products = [
         originalPrice: 120.00,
         category: 'Home Decor',
         subcategory: 'Vases',
-        description: 'Handcrafted ceramic vase with a clean, modern silhouette. Perfect for minimalist interiors. Each piece is unique with subtle variations in glaze.',
+        description: 'Handcrafted ceramic vase with a clean, modern silhouette. Perfect for minimalist interiors.',
         image: '/uploads/products/vase.jpg',
         images: '/uploads/products/vase.jpg,/uploads/products/vase-2.jpg',
         stock: 45,
@@ -37,7 +37,7 @@ const products = [
         originalPrice: 299.00,
         category: 'Accessories',
         subcategory: 'Bags',
-        description: 'Full-grain Italian leather tote with a spacious interior. Features brass hardware and a removable shoulder strap. Ages beautifully over time.',
+        description: 'Full-grain Italian leather tote with a spacious interior.',
         image: '/uploads/products/bag.jpg',
         images: '/uploads/products/bag.jpg,/uploads/products/bag-2.jpg',
         stock: 30,
@@ -49,7 +49,7 @@ const products = [
         brand: 'Luxe Leather',
         material: 'Italian Leather',
         color: 'Tan',
-        tags: 'leather,bag,tote,premium,accessories'
+        tags: 'leather,bag,tote,premium'
     },
     {
         id: 'prod_003',
@@ -58,7 +58,7 @@ const products = [
         originalPrice: 399.00,
         category: 'Electronics',
         subcategory: 'Audio',
-        description: 'Premium over-ear headphones with active noise cancellation, 30-hour battery life, and crystal-clear sound. Ultra-comfortable memory foam ear cushions.',
+        description: 'Premium over-ear headphones with active noise cancellation.',
         image: '/uploads/products/headphones.jpg',
         images: '/uploads/products/headphones.jpg,/uploads/products/headphones-2.jpg',
         stock: 85,
@@ -70,13 +70,13 @@ const products = [
         brand: 'SoundElite',
         material: 'Aluminum & Leather',
         color: 'Midnight Black',
-        tags: 'headphones,wireless,noise-cancelling,electronics'
+        tags: 'headphones,wireless,noise-cancelling'
     }
 ];
 
 const users = [
     {
-        id: 'user_001',
+        id: 'user_admin',
         name: 'Admin User',
         email: 'admin@store.com',
         password: bcrypt.hashSync('admin123', 10),
@@ -102,30 +102,31 @@ const inventory = products.map(p => ({
 }));
 
 async function seed() {
-    console.log('🚀 Seeding Google Sheets...');
+    console.log('🚀 Seeding Google Sheets Database...');
 
-    if (!process.env.GOOGLE_SPREADSHEET_ID) {
-        console.error('❌ GOOGLE_SPREADSHEET_ID missing in .env');
+    if (!process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || !process.env.GOOGLE_SPREADSHEET_ID || !process.env.GOOGLE_PRIVATE_KEY) {
+        console.error('❌ Missing credentials in .env file (check GOOGLE_PRIVATE_KEY)');
         return;
     }
 
     try {
         await writeExcel('products.xlsx', products);
-        console.log('✅ Products seeded');
+        console.log('✅ Products seeded successfully');
 
         await writeExcel('users.xlsx', users);
-        console.log('✅ Users seeded');
+        console.log('✅ Admin user created: admin@store.com / admin123');
 
         await writeExcel('inventory.xlsx', inventory);
-        console.log('✅ Inventory seeded');
+        console.log('✅ Inventory records created');
 
-        // Create empty sheets for orders and reviews
+        // Ensure empty sheets for orders and reviews exist with headers
         await writeExcel('orders.xlsx', [{ id: 'order_template', userId: '', products: '[]', total: 0, status: 'pending', createdAt: '' }]);
         await writeExcel('reviews.xlsx', [{ id: 'review_template', productId: '', userId: '', rating: 5, comment: '', createdAt: '' }]);
 
-        console.log('\n🎉 All sheets seeded successfully!');
+        console.log('\n🎉 SUCCESS! Your Google Spreadsheet is now persistent and loaded with data.');
+        console.log('You can now log in at your website with: admin@store.com / admin123');
     } catch (error) {
-        console.error('❌ Seeding failed:', error.message);
+        console.error('❌ Seeding failed (Check if service account has "Editor" permission):', error.message);
     }
 }
 

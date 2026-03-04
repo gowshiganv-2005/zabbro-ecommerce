@@ -43,6 +43,30 @@ app.use('/api/orders', require('./routes/orders'));
 app.use('/api/reviews', require('./routes/reviews'));
 app.use('/api/admin', require('./routes/admin'));
 
+// DB Test Route
+app.get('/api/test-db', async (req, res) => {
+    try {
+        const { readExcel } = require('./utils/excel');
+        const data = await readExcel('users.xlsx');
+        res.json({
+            success: true,
+            message: 'Database connection successful',
+            userCount: data.length,
+            config: {
+                hasEmail: !!process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+                hasID: !!process.env.GOOGLE_SPREADSHEET_ID,
+                hasKey: !!process.env.GOOGLE_PRIVATE_KEY
+            }
+        });
+    } catch (error) {
+        console.error(`❌ GOOGLE SHEETS ERROR reading users.xlsx:`, error.message);
+        if (error.code === 403) console.error('   -> Permission denied. Check service account access.');
+        if (error.code === 404) console.error('   -> Spreadsheet not found. Check ID.');
+        if (error.message && error.message.includes('key')) console.error('   -> Private key format is likely invalid.');
+        res.status(500).json({ success: false, error: error.message, details: 'Check server logs for more info.' });
+    }
+});
+
 // ═══════════════════════════════════════
 // SPA FALLBACK - Serve index.html for all non-API routes
 // ═══════════════════════════════════════

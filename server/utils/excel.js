@@ -1,24 +1,31 @@
 /**
  * Google Sheets Database Utility
- * Connects to a Google Spreadsheet to store your e-commerce data permanently.
- * Acts as a drop-in replacement for the Excel/MongoDB layer.
  */
 
 const { google } = require('googleapis');
 require('dotenv').config();
 
-// Authentication setup
-const auth = new google.auth.JWT(
-  process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-  null,
-  process.env.GOOGLE_PRIVATE_KEY ? process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n') : '',
-  ['https://www.googleapis.com/auth/spreadsheets']
-);
+// Clean the Private Key
+let rawKey = process.env.GOOGLE_PRIVATE_KEY || '';
+// Handle Vercel adding quotes or double-escaping
+if (rawKey.startsWith('"') && rawKey.endsWith('"')) {
+  rawKey = rawKey.substring(1, rawKey.length - 1);
+}
+// Clean up escaped newlines (e.g. \\n becomes \n)
+const PRIVATE_KEY = rawKey.replace(/\\n/g, '\n').trim();
+
+// Authentication setup using the modern GoogleAuth
+const auth = new google.auth.GoogleAuth({
+  credentials: {
+    client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+    private_key: PRIVATE_KEY,
+  },
+  scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+});
 
 const sheets = google.sheets({ version: 'v4', auth });
 const SPREADSHEET_ID = process.env.GOOGLE_SPREADSHEET_ID;
 
-// Map filenames to Sheet names
 const SHEET_MAP = {
   'products.xlsx': 'Products',
   'users.xlsx': 'Users',
@@ -27,9 +34,6 @@ const SHEET_MAP = {
   'reviews.xlsx': 'Reviews'
 };
 
-/**
- * Helper to get data from a specific sheet
- */
 async function getSheetData(sheetName) {
   if (!SPREADSHEET_ID) return [];
   try {
@@ -45,16 +49,15 @@ async function getSheetData(sheetName) {
       const obj = {};
       headers.forEach((header, index) => {
         let value = row[index];
-        // Try to parse JSON or numbers
         try {
           if (value && (value.startsWith('[') || value.startsWith('{'))) {
             obj[header] = JSON.parse(value);
-          } else if (!isNaN(value) && value !== '') {
-            obj[header] = Number(value);
-          } else if (value === 'TRUE' || value === 'true') {
+          } else if (value === 'TRUE' || value === 'true' || value === true) {
             obj[header] = true;
-          } else if (value === 'FALSE' || value === 'false') {
+          } else if (value === 'FALSE' || value === 'false' || value === false) {
             obj[header] = false;
+          } else if (!isNaN(value) && value !== '' && value !== null) {
+            obj[header] = Number(value);
           } else {
             obj[header] = value;
           }
@@ -70,11 +73,8 @@ async function getSheetData(sheetName) {
   }
 }
 
-/**
- * Helper to write data to a specific sheet
- */
 async function setSheetData(sheetName, data) {
-  if (!SPREADSHEET_ID) return false;
+  if (!SPREADSHEET_ID) throw new Error('GOOGLE_SPREADSHEET_ID is missing');
   if (!data || data.length === 0) return true;
 
   try {
@@ -83,18 +83,16 @@ async function setSheetData(sheetName, data) {
     data.forEach(item => {
       rows.push(headers.map(header => {
         const val = item[header];
-        if (typeof val === 'object') return JSON.stringify(val);
-        return val;
+        if (typeof val === 'object' && val !== null) return JSON.stringify(val);
+        return val === undefined || val === null ? '' : val;
       }));
     });
 
-    // Clear existing data first
     await sheets.spreadsheets.values.clear({
       spreadsheetId: SPREADSHEET_ID,
       range: `${sheetName}!A:Z`,
     });
 
-    // Update with new data
     await sheets.spreadsheets.values.update({
       spreadsheetId: SPREADSHEET_ID,
       range: `${sheetName}!A1`,
@@ -104,13 +102,10 @@ async function setSheetData(sheetName, data) {
     return true;
   } catch (error) {
     console.error(`Error writing to sheet ${sheetName}:`, error.message);
-    return false;
+    throw error;
   }
 }
 
-/**
- * Drop-in replacements for original Excel utility
- */
 async function readExcel(filename) {
   const sheetName = SHEET_MAP[filename];
   return await getSheetData(sheetName);
