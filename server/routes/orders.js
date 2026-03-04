@@ -6,7 +6,7 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const { readExcel, findRow, findRows, appendRow, updateRow } = require('../utils/excel');
+const { readExcel, findRow, findRows, appendRow, updateRow, deleteRow } = require('../utils/excel');
 const { sendOrderEmails } = require('../utils/email');
 const { v4: uuidv4 } = require('uuid');
 
