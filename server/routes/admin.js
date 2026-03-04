@@ -14,21 +14,36 @@ const { readExcel, writeExcel, updateRow } = require('../utils/excel');
 const JWT_SECRET = process.env.JWT_SECRET || 'ecommerce_secret_key_2026';
 
 // Configure multer for image uploads
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        const dir = path.join(__dirname, '..', '..', 'public', 'uploads', 'products');
-        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-        cb(null, dir);
-    },
-    filename: (req, file, cb) => {
-        const ext = path.extname(file.originalname);
-        cb(null, `product_${Date.now()}${ext}`);
+// Falls back to memory storage on Vercel/Render where the file system is read-only
+const isServerless = process.env.VERCEL || process.env.RENDER || process.env.NODE_ENV === 'production';
+
+let storage;
+try {
+    const uploadPath = path.join(__dirname, '..', '..', 'public', 'uploads', 'products');
+    if (!fs.existsSync(uploadPath) && !isServerless) {
+        fs.mkdirSync(uploadPath, { recursive: true });
     }
-});
+
+    storage = multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, uploadPath);
+        },
+        filename: (req, file, cb) => {
+            const ext = path.extname(file.originalname);
+            cb(null, `product_${Date.now()}${ext}`);
+        }
+    });
+} catch (e) {
+    console.warn('⚠️ Disk storage unavailable, falling back to memory storage');
+    storage = multer.memoryStorage();
+}
+
+// Ensure we have a storage object
+if (!storage) storage = multer.memoryStorage();
 
 const upload = multer({
     storage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+    limits: { fileSize: 2 * 1024 * 1024 }, // 2MB limit (better for Google Sheets Base64)
     fileFilter: (req, file, cb) => {
         const allowed = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
         const ext = path.extname(file.originalname).toLowerCase();
@@ -182,10 +197,21 @@ router.post('/upload', adminAuth, upload.single('image'), (req, res) => {
         if (!req.file) {
             return res.status(400).json({ success: false, message: 'No file uploaded' });
         }
-        const imageUrl = `/uploads/products/${req.file.filename}`;
+
+        let imageUrl;
+        if (req.file.buffer) {
+            // Convert to Base64 for Cloud-based storage (Google Sheets)
+            const b64 = req.file.buffer.toString('base64');
+            imageUrl = `data:${req.file.mimetype};base64,${b64}`;
+        } else {
+            // Local path for disk storage
+            imageUrl = `/uploads/products/${req.file.filename}`;
+        }
+
         res.json({ success: true, data: { url: imageUrl }, message: 'Image uploaded successfully' });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Failed to upload image' });
+        console.error('Upload Error:', error);
+        res.status(500).json({ success: false, message: 'Failed to upload image', error: error.message });
     }
 });
 
