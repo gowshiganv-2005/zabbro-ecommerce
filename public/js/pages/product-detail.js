@@ -2,26 +2,33 @@
  * Product Detail Page Module
  */
 async function renderProductDetailPage(productId) {
-    const app = document.getElementById('app');
-    app.innerHTML = `<div class="container"><div class="pd-layout">${'<div class="skeleton" style="height:500px;border-radius:16px"></div>'.repeat(2)}</div></div>`;
+  const app = document.getElementById('app');
+  app.innerHTML = `<div class="container"><div class="pd-layout">${'<div class="skeleton" style="height:500px;border-radius:16px"></div>'.repeat(2)}</div></div>`;
 
-    try {
-        const res = await API.products.get(productId);
-        if (!res.success) throw new Error('Product not found');
-        const p = res.data;
-        const discount = p.originalPrice > p.price ? Math.round((1 - p.price / p.originalPrice) * 100) : 0;
-        const stockStatus = p.stock > 20 ? 'In Stock' : p.stock > 0 ? `Only ${p.stock} left` : 'Out of Stock';
-        const stockClass = p.stock > 20 ? '' : p.stock > 0 ? 'low' : 'out';
+  try {
+    const res = await API.products.get(productId);
+    if (!res.success) throw new Error('Product not found');
+    const p = res.data;
+    const discount = p.originalPrice > p.price ? Math.round((1 - p.price / p.originalPrice) * 100) : 0;
+    const stockStatus = p.stock > 20 ? 'In Stock' : p.stock > 0 ? `Only ${p.stock} left` : 'Out of Stock';
+    const stockClass = p.stock > 20 ? '' : p.stock > 0 ? 'low' : 'out';
 
-        app.innerHTML = `
+    app.innerHTML = `
       <section class="container">
         <div class="pd-layout">
           <div class="pd-gallery fade-in">
-            <div class="pd-main-image" id="pd-main-image">
-              <div style="width:100%;height:100%;background:var(--bg-alt);display:flex;align-items:center;justify-content:center;font-size:.875rem;color:var(--text-muted)">
-                ${p.image ? `<img src="${p.image}" alt="${p.name}" onerror="this.style.display='none'">` : p.category}
-              </div>
+            <div class="pd-main-image" id="pd-main-image-container">
+              ${p.image ? `<img src="${p.image}" alt="${p.name}" id="main-product-img">` : `<div style="width:100%;height:100%;background:var(--bg-alt);display:flex;align-items:center;justify-content:center;color:var(--text-muted)">${p.category}</div>`}
             </div>
+            ${p.images && p.images.split(',').length > 1 ? `
+              <div class="pd-thumbnails">
+                ${p.images.split(',').map((img, idx) => `
+                  <div class="pd-thumbnail ${idx === 0 ? 'active' : ''}" onclick="switchProductImage(this, '${img.trim()}')">
+                    <img src="${img.trim()}" alt="${p.name} view ${idx + 1}">
+                  </div>
+                `).join('')}
+              </div>
+            ` : ''}
           </div>
           <div class="pd-info fade-in" style="animation-delay:.15s">
             <div class="pd-breadcrumb">
@@ -98,47 +105,47 @@ async function renderProductDetailPage(productId) {
       </section>
     `;
 
-        // Quantity controls
-        const qtyInput = document.getElementById('pd-qty');
-        document.getElementById('qty-minus')?.addEventListener('click', () => { if (parseInt(qtyInput.value) > 1) qtyInput.value = parseInt(qtyInput.value) - 1; });
-        document.getElementById('qty-plus')?.addEventListener('click', () => { if (parseInt(qtyInput.value) < (p.stock || 99)) qtyInput.value = parseInt(qtyInput.value) + 1; });
+    // Quantity controls
+    const qtyInput = document.getElementById('pd-qty');
+    document.getElementById('qty-minus')?.addEventListener('click', () => { if (parseInt(qtyInput.value) > 1) qtyInput.value = parseInt(qtyInput.value) - 1; });
+    document.getElementById('qty-plus')?.addEventListener('click', () => { if (parseInt(qtyInput.value) < (p.stock || 99)) qtyInput.value = parseInt(qtyInput.value) + 1; });
 
-        // Add to cart
-        document.getElementById('add-to-cart-btn')?.addEventListener('click', () => {
-            const qty = parseInt(qtyInput.value) || 1;
-            Store.addToCart({ id: p.id, name: p.name, price: p.price, image: p.image, category: p.category }, qty);
-        });
+    // Add to cart
+    document.getElementById('add-to-cart-btn')?.addEventListener('click', () => {
+      const qty = parseInt(qtyInput.value) || 1;
+      Store.addToCart({ id: p.id, name: p.name, price: p.price, image: p.image, category: p.category }, qty);
+    });
 
-        // Load reviews
+    // Load reviews
+    loadProductReviews(productId);
+
+    // Submit review
+    document.getElementById('submit-review')?.addEventListener('click', async () => {
+      const rating = document.getElementById('review-rating').value;
+      const title = document.getElementById('review-title').value;
+      const comment = document.getElementById('review-comment').value;
+      try {
+        await API.reviews.create({ productId, rating: parseInt(rating), title, comment });
+        Toast.show('Review submitted!', 'success');
         loadProductReviews(productId);
-
-        // Submit review
-        document.getElementById('submit-review')?.addEventListener('click', async () => {
-            const rating = document.getElementById('review-rating').value;
-            const title = document.getElementById('review-title').value;
-            const comment = document.getElementById('review-comment').value;
-            try {
-                await API.reviews.create({ productId, rating: parseInt(rating), title, comment });
-                Toast.show('Review submitted!', 'success');
-                loadProductReviews(productId);
-                document.getElementById('review-title').value = '';
-                document.getElementById('review-comment').value = '';
-            } catch (err) { Toast.show(err.message, 'error'); }
-        });
-    } catch (err) {
-        app.innerHTML = `<div style="text-align:center;padding:120px 20px"><h2>Product not found</h2><p style="color:var(--text-secondary);margin:12px 0 24px">The product you're looking for doesn't exist.</p><a href="#/products" class="btn btn-primary">Browse Products</a></div>`;
-    }
+        document.getElementById('review-title').value = '';
+        document.getElementById('review-comment').value = '';
+      } catch (err) { Toast.show(err.message, 'error'); }
+    });
+  } catch (err) {
+    app.innerHTML = `<div style="text-align:center;padding:120px 20px"><h2>Product not found</h2><p style="color:var(--text-secondary);margin:12px 0 24px">The product you're looking for doesn't exist.</p><a href="#/products" class="btn btn-primary">Browse Products</a></div>`;
+  }
 }
 
 async function loadProductReviews(productId) {
-    const container = document.getElementById('reviews-content');
-    if (!container) return;
-    try {
-        const res = await API.reviews.list(productId);
-        if (!res.success) throw new Error();
-        const { data: reviews, summary } = res;
+  const container = document.getElementById('reviews-content');
+  if (!container) return;
+  try {
+    const res = await API.reviews.list(productId);
+    if (!res.success) throw new Error();
+    const { data: reviews, summary } = res;
 
-        container.innerHTML = `
+    container.innerHTML = `
       ${reviews.length > 0 ? `
         <div class="reviews-summary">
           <div class="reviews-avg">
@@ -169,5 +176,14 @@ async function loadProductReviews(productId) {
         `).join('')}
       ` : '<p style="color:var(--text-secondary);padding:24px 0">No reviews yet. Be the first to review this product!</p>'}
     `;
-    } catch (err) { container.innerHTML = '<p style="color:var(--text-muted)">Unable to load reviews.</p>'; }
+  } catch (err) { container.innerHTML = '<p style="color:var(--text-muted)">Unable to load reviews.</p>'; }
+}
+
+function switchProductImage(el, src) {
+  const mainImg = document.getElementById('main-product-img');
+  if (mainImg) mainImg.src = src;
+
+  // Update active thumbnail
+  document.querySelectorAll('.pd-thumbnail').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
 }

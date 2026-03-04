@@ -261,6 +261,10 @@ function openAddProductModal() {
         <div class="form-group"><label class="form-label">Brand</label><input class="form-input" id="mp-brand" placeholder="e.g. ZABBRO"></div>
         <div class="form-group"><label class="form-label">Material</label><input class="form-input" id="mp-material" placeholder="e.g. Cotton"></div>
         <div class="form-group"><label class="form-label">Color</label><input class="form-input" id="mp-color" placeholder="e.g. Black"></div>
+      <div class="form-group">
+        <label class="form-label">Gallery Image URLs (Comma separated)</label>
+        <textarea class="form-input" id="mp-gallery" placeholder="https://example.com/img1.jpg, https://example.com/img2.jpg" style="min-height:60px"></textarea>
+        <p style="font-size:.7rem;color:var(--text-muted);margin-top:4px">Add additional views for the carousel. The main image is already included.</p>
       </div>
     </div>
     <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" id="save-product-btn">Save Product</button></div>
@@ -285,7 +289,7 @@ function openAddProductModal() {
         material: document.getElementById('mp-material').value,
         color: document.getElementById('mp-color').value,
         image: uploadedImageUrl,
-        images: uploadedImageUrl,
+        images: (uploadedImageUrl + ',' + document.getElementById('mp-gallery').value).split(',').map(s => s.trim()).filter(s => s).join(','),
         featured: false, bestSeller: false, newArrival: true
       });
       Toast.show('Product created!', 'success');
@@ -333,6 +337,10 @@ async function openEditProductModal(id) {
         <div class="form-group"><label class="form-label">Brand</label><input class="form-input" id="mp-brand" value="${p.brand || ''}"></div>
         <div class="form-group"><label class="form-label">Material</label><input class="form-input" id="mp-material" value="${p.material || ''}"></div>
         <div class="form-group"><label class="form-label">Color</label><input class="form-input" id="mp-color" value="${p.color || ''}"></div>
+      <div class="form-group">
+        <label class="form-label">Gallery Image URLs (Comma separated)</label>
+        <textarea class="form-input" id="mp-gallery" placeholder="https://example.com/img1.jpg, https://example.com/img2.jpg" style="min-height:60px">${p.images || ''}</textarea>
+        <p style="font-size:.7rem;color:var(--text-muted);margin-top:4px">The main image above is automatically included if not present here.</p>
       </div>
     </div>
     <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" id="update-product-btn">Update</button></div>
@@ -355,7 +363,7 @@ async function openEditProductModal(id) {
         material: document.getElementById('mp-material').value,
         color: document.getElementById('mp-color').value,
         image: uploadedImageUrl,
-        images: uploadedImageUrl
+        images: document.getElementById('mp-gallery').value.trim() || uploadedImageUrl
       });
       Toast.show('Product updated!', 'success');
       closeModal();

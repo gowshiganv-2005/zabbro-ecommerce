@@ -1706,29 +1706,34 @@ hr {
 
 .pd-thumbnails {
   display: flex;
-  gap: 8px
+  gap: 12px;
+  margin-top: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
 }
 
-.pd-thumb {
-  width: 72px;
-  height: 72px;
-  border-radius: var(--radius-sm);
+.pd-thumbnail {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-md);
   border: 2px solid transparent;
   overflow: hidden;
   cursor: pointer;
   background: var(--bg-alt);
-  transition: var(--transition)
+  transition: var(--transition);
+  flex-shrink: 0;
 }
 
-.pd-thumb.active,
-.pd-thumb:hover {
-  border-color: var(--accent)
+.pd-thumbnail.active,
+.pd-thumbnail:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
 }
 
-.pd-thumb img {
+.pd-thumbnail img {
   width: 100%;
   height: 100%;
-  object-fit: cover
+  object-fit: cover;
 }
 
 .pd-info {
