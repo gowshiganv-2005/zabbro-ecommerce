@@ -251,8 +251,9 @@ function openAddProductModal() {
         <div class="form-group"><label class="form-label">Price (₹)</label><input class="form-input" id="mp-price" type="number" step="0.01" required></div>
         <div class="form-group"><label class="form-label">Original Price (₹)</label><input class="form-input" id="mp-original" type="number" step="0.01"></div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div class="form-group"><label class="form-label">Category</label><input class="form-input" id="mp-category" placeholder="e.g. Home Decor"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+        <div class="form-group"><label class="form-label">Category</label><input class="form-input" id="mp-category" placeholder="e.g. Website"></div>
+        <div class="form-group"><label class="form-label">Sub-category</label><input class="form-input" id="mp-subcategory" placeholder="e.g. Landing Page"></div>
         <div class="form-group"><label class="form-label">Stock</label><input class="form-input" id="mp-stock" type="number" value="50"></div>
       </div>
       <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="mp-desc"></textarea></div>
@@ -277,6 +278,7 @@ function openAddProductModal() {
         price: parseFloat(document.getElementById('mp-price').value) || 0,
         originalPrice: parseFloat(document.getElementById('mp-original').value) || 0,
         category: document.getElementById('mp-category').value,
+        subcategory: document.getElementById('mp-subcategory').value,
         stock: parseInt(document.getElementById('mp-stock').value) || 0,
         description: document.getElementById('mp-desc').value,
         brand: document.getElementById('mp-brand').value,
@@ -321,8 +323,9 @@ async function openEditProductModal(id) {
         <div class="form-group"><label class="form-label">Price (₹)</label><input class="form-input" id="mp-price" type="number" step="0.01" value="${p.price}"></div>
         <div class="form-group"><label class="form-label">Original Price (₹)</label><input class="form-input" id="mp-original" type="number" step="0.01" value="${p.originalPrice || ''}"></div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
         <div class="form-group"><label class="form-label">Category</label><input class="form-input" id="mp-category" value="${p.category}"></div>
+        <div class="form-group"><label class="form-label">Sub-category</label><input class="form-input" id="mp-subcategory" value="${p.subcategory || ''}" placeholder="e.g. Landing Page"></div>
         <div class="form-group"><label class="form-label">Stock</label><input class="form-input" id="mp-stock" type="number" value="${p.stock}"></div>
       </div>
       <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="mp-desc">${p.description || ''}</textarea></div>
@@ -345,6 +348,7 @@ async function openEditProductModal(id) {
         price: parseFloat(document.getElementById('mp-price').value),
         originalPrice: parseFloat(document.getElementById('mp-original').value) || 0,
         category: document.getElementById('mp-category').value,
+        subcategory: document.getElementById('mp-subcategory').value,
         stock: parseInt(document.getElementById('mp-stock').value),
         description: document.getElementById('mp-desc').value,
         brand: document.getElementById('mp-brand').value,
