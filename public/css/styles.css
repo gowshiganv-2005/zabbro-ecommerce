@@ -467,9 +467,9 @@ hr {
 .notification-dropdown {
   position: absolute;
   top: calc(100% + 15px);
-  right: -50px;
+  left: 50%;
   width: 320px;
-  background: var(--glass-strong);
+  background: var(--white);
   backdrop-filter: var(--blur-strong);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
@@ -477,7 +477,7 @@ hr {
   z-index: 1001;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(10px);
+  transform: translateX(-50%) translateY(10px);
   transition: all .35s cubic-bezier(.4, 0, .2, 1);
   overflow: hidden;
 }
@@ -485,7 +485,7 @@ hr {
 .notification-dropdown.open {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
+  transform: translateX(-50%) translateY(0);
 }
 
 .notification-header {

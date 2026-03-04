@@ -51,21 +51,23 @@
       </nav>
       <div class="header-actions">
         <button class="header-btn" id="search-toggle" aria-label="Search"><i data-lucide="search"></i></button>
-        <button class="header-btn" id="notification-toggle" aria-label="Notifications" style="position:relative">
-          <i data-lucide="bell"></i>
-          <span class="notification-badge" id="notification-badge" style="display:none"></span>
-        </button>
-        <!-- Notification Dropdown -->
-        <div id="notification-dropdown" class="notification-dropdown">
-          <div class="notification-header">
-            <h3>Notifications</h3>
-            <button class="btn btn-ghost btn-sm" style="font-size:10px" onclick="clearNotifications()">Clear
-              All</button>
-          </div>
-          <div id="notification-list" class="notification-list">
-            <div class="notification-empty">
-              <i data-lucide="bell-off" style="width:32px;height:32px;margin-bottom:8px;opacity:.3"></i>
-              <p>No new notifications</p>
+        <div class="header-dropdown-wrap" style="position:relative">
+          <button class="header-btn" id="notification-toggle" aria-label="Notifications" style="position:relative">
+            <i data-lucide="bell"></i>
+            <span class="notification-badge" id="notification-badge" style="display:none"></span>
+          </button>
+          <!-- Notification Dropdown -->
+          <div id="notification-dropdown" class="notification-dropdown">
+            <div class="notification-header">
+              <h3>Notifications</h3>
+              <button class="btn btn-ghost btn-sm" style="font-size:10px" onclick="clearNotifications()">Clear
+                All</button>
+            </div>
+            <div id="notification-list" class="notification-list">
+              <div class="notification-empty">
+                <i data-lucide="bell-off" style="width:32px;height:32px;margin-bottom:8px;opacity:.3"></i>
+                <p>No new notifications</p>
+              </div>
             </div>
           </div>
         </div>
@@ -137,11 +139,15 @@
         </div>
         <nav class="footer-links" aria-label="Shop categories">
           <h4>Shop</h4>
-          <a href="#/products?category=Home Decor">Home Decor</a>
-          <a href="#/products?category=Electronics">Electronics</a>
-          <a href="#/products?category=Accessories">Accessories</a>
-          <a href="#/products?category=Kitchen">Kitchen</a>
-          <a href="#/products?category=Lighting">Lighting</a>
+          <a href="#/products?category=Projects">Projects</a>
+          <a href="#/products?category=T-shirts">T-shirts</a>
+          <a href="#/products?category=Websites">Websites</a>
+          <a href="#/products?category=Wooden Products">Wooden Products</a>
+          <a href="#/products?category=Trendy Products">Trendy Products</a>
+          <a href="#/products?category=Plants">Plants</a>
+          <a href="#/products?category=Stickers">Stickers</a>
+          <a href="#/products?category=Tech Accessories">Tech Accessories</a>
+          <a href="#/products?category=Customized Products">Customized Products</a>
           <a href="#/products">All Products</a>
         </nav>
         <nav class="footer-links" aria-label="Company information">
