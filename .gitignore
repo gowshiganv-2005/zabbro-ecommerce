@@ -10,7 +10,22 @@ Thumbs.db
 # Environment
 .env
 
-# Temp scripts
+# Temp scripts & diagnostics
 server/download-hero.js
 server/download-images.js
 server/download-retry.js
+server/diag-auth.js
+server/diag.js
+server/test-api-add.js
+server/test-drive.js
+server/test-sheets.js
+server/test-upload.js
+server/migrate-to-drive.js
+server/check-data.js
+server/debug-sheets.js
+server/final-check.js
+
+# Logs
+*.log
+server/*.txt
+server/*.log

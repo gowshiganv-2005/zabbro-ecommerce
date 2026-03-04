@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Admin Dashboard Page Module
  */
 function renderAdminPage(tab = 'overview') {
@@ -241,7 +241,7 @@ function openAddProductModal() {
           <div id="img-placeholder">
             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:8px;color:var(--text-muted)"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
             <p style="font-size:.875rem;font-weight:500;color:var(--text-secondary);margin-bottom:4px">Click to upload or drag & drop</p>
-            <p style="font-size:.75rem;color:var(--text-muted)">JPG, PNG, WebP up to 5MB</p>
+            <p style="font-size:.75rem;color:var(--text-muted)">JPG, PNG, WebP optimized locally</p>
           </div>
           <input type="file" id="img-file-input" accept="image/*" style="position:absolute;inset:0;opacity:0;cursor:pointer" />
         </div>
@@ -279,7 +279,6 @@ function openAddProductModal() {
     <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" id="save-product-btn">Save Product</button></div>
   `);
 
-  // Image upload handlers
   setupImageUpload('img-file-input', 'img-preview', 'img-preview-wrap', 'img-placeholder', 'img-upload-zone', 'img-upload-status', (url) => { uploadedImageUrl = url; });
   setupMultiImageUpload('gallery-file-input', 'gallery-upload-zone', 'gallery-preview-list', 'gallery-upload-status', [], (urls) => { galleryUrls = urls; });
 
@@ -327,7 +326,6 @@ async function openEditProductModal(id) {
           <div id="img-placeholder" style="${p.image ? 'display:none' : ''}">
             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:8px;color:var(--text-muted)"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
             <p style="font-size:.875rem;font-weight:500;color:var(--text-secondary);margin-bottom:4px">Click to upload or drag & drop</p>
-            <p style="font-size:.75rem;color:var(--text-muted)">JPG, PNG, WebP up to 5MB</p>
           </div>
           <input type="file" id="img-file-input" accept="image/*" style="position:absolute;inset:0;opacity:0;cursor:pointer" />
         </div>
@@ -363,7 +361,6 @@ async function openEditProductModal(id) {
     <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" id="update-product-btn">Update</button></div>
   `);
 
-  // Image upload handlers
   setupImageUpload('img-file-input', 'img-preview', 'img-preview-wrap', 'img-placeholder', 'img-upload-zone', 'img-upload-status', (url) => { uploadedImageUrl = url; });
   setupMultiImageUpload('gallery-file-input', 'gallery-upload-zone', 'gallery-preview-list', 'gallery-upload-status', p.images || '', (urls) => { galleryUrls = urls; });
 
@@ -373,7 +370,6 @@ async function openEditProductModal(id) {
     try {
       btn.disabled = true;
       btn.textContent = 'Updating...';
-
       await API.products.update(id, {
         name: document.getElementById('mp-name').value,
         price: parseFloat(document.getElementById('mp-price').value),
@@ -410,7 +406,6 @@ function setupImageUpload(inputId, previewId, wrapId, placeholderId, zoneId, sta
 
   if (!fileInput) return;
 
-  // Drag-and-drop visual feedback
   zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.style.borderColor = '#111'; zone.style.background = 'rgba(0,0,0,.04)'; });
   zone.addEventListener('dragleave', () => { zone.style.borderColor = ''; zone.style.background = ''; });
   zone.addEventListener('drop', (e) => {
@@ -428,9 +423,6 @@ function setupImageUpload(inputId, previewId, wrapId, placeholderId, zoneId, sta
 
   async function handleFile(file) {
     if (!file.type.startsWith('image/')) { Toast.show('Please select an image file', 'error'); return; }
-    if (file.size > 5 * 1024 * 1024) { Toast.show('Image must be under 5MB', 'error'); return; }
-
-    // Show local preview immediately
     const reader = new FileReader();
     reader.onload = (e) => {
       preview.src = e.target.result;
@@ -439,36 +431,68 @@ function setupImageUpload(inputId, previewId, wrapId, placeholderId, zoneId, sta
     };
     reader.readAsDataURL(file);
 
-    // Upload to server
-    status.textContent = 'Uploading...';
-    status.style.color = 'var(--text-muted)';
+    status.textContent = 'Optimizing image...';
     try {
+      // Significantly more aggressive compression for Google Sheets (Max 600px, 0.4 quality)
+      // This is necessary because Base64 strings must be under 50,000 characters.
+      const compressedFile = await compressImage(file, 600, 0.4);
+      status.textContent = 'Uploading optimized image...';
       const formData = new FormData();
-      formData.append('image', file);
+      formData.append('image', compressedFile);
       const res = await API.admin.uploadImage(formData);
       if (res.success) {
-        status.textContent = '✓ Image uploaded successfully';
+        status.textContent = '✓ Uploaded';
         status.style.color = 'var(--success)';
         onUploaded(res.data.url);
       } else {
-        throw new Error(res.message || 'Upload failed');
+        throw new Error(res.details || res.message || 'Upload failed');
       }
     } catch (err) {
-      status.textContent = '✗ Upload failed: ' + err.message;
+      status.textContent = '✗ ' + err.message;
       status.style.color = 'var(--danger)';
     }
   }
 }
 
-async function deleteProduct(id) {
-  if (!confirm('Are you sure you want to delete this product?')) return;
-  try { await API.products.delete(id); Toast.show('Product deleted', 'success'); loadAdminTab('products'); }
-  catch (e) { Toast.show(e.message, 'error'); }
+/** High Quality Client-side Image Compression */
+async function compressImage(file, maxSize = 1024, quality = 0.7) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.src = URL.createObjectURL(file);
+    img.onload = () => {
+      let width = img.width;
+      let height = img.height;
+      if (width > height) {
+        if (width > maxSize) { height *= maxSize / width; width = maxSize; }
+      } else {
+        if (height > maxSize) { width *= maxSize / height; height = maxSize; }
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = width; canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+      canvas.toBlob((blob) => {
+        if (blob) resolve(new File([blob], file.name, { type: 'image/jpeg' }));
+        else reject(new Error('Compression failed'));
+      }, 'image/jpeg', quality);
+    };
+    img.onerror = () => reject(new Error('Failed to load image'));
+  });
 }
 
-async function updateOrderStatus(id, status) {
-  try { await API.orders.updateStatus(id, status); Toast.show(`Order ${status}`, 'success'); }
-  catch (e) { Toast.show(e.message, 'error'); }
+function deleteProduct(id) {
+  if (!confirm('Are you sure you want to delete this product?')) return;
+  API.products.delete(id).then(() => {
+    Toast.show('Product deleted', 'success');
+    loadAdminTab('products');
+  }).catch(e => Toast.show(e.message, 'error'));
+}
+
+function updateOrderStatus(id, status) {
+  API.orders.updateStatus(id, status).then(() => {
+    Toast.show(`Order updated to ${status}`, 'success');
+    loadAdminTab('orders');
+  }).catch(e => Toast.show(e.message, 'error'));
 }
 
 function openInventoryModal(productId, currentStock, reorderLevel) {
@@ -492,16 +516,15 @@ function openInventoryModal(productId, currentStock, reorderLevel) {
     } catch (e) { Toast.show(e.message, 'error'); }
   });
 }
-async function deleteUser(id) {
-  if (!confirm('Are you sure you want to delete this user? This action cannot be undone.')) return;
-  try {
-    await API.users.delete(id);
-    Toast.show('User deleted successfully', 'success');
+
+function deleteUser(id) {
+  if (!confirm('Delete this user?')) return;
+  API.users.delete(id).then(() => {
+    Toast.show('User deleted', 'success');
     loadAdminTab('users');
-  } catch (e) { Toast.show(e.message || 'Failed to delete user', 'error'); }
+  }).catch(e => Toast.show(e.message, 'error'));
 }
 
-/** Multi-image upload handler for gallery */
 function setupMultiImageUpload(inputId, zoneId, listId, statusId, initialUrls = [], onUpdate) {
   const fileInput = document.getElementById(inputId);
   const zone = document.getElementById(zoneId);
@@ -520,20 +543,15 @@ function setupMultiImageUpload(inputId, zoneId, listId, statusId, initialUrls = 
     `).join('');
     onUpdate(urls.join(','));
   };
-
-  // Attach state to the list element so the global helper can find it
   list._galleryUrls = urls;
   list._renderList = renderList;
-
   renderList();
 
   if (!fileInput || !zone) return;
-
-  zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.style.borderColor = 'var(--accent)'; zone.style.background = 'rgba(0,0,0,0.02)'; });
-  zone.addEventListener('dragleave', () => { zone.style.borderColor = ''; zone.style.background = ''; });
+  zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.style.borderColor = 'var(--accent)'; });
+  zone.addEventListener('dragleave', () => { zone.style.borderColor = ''; });
   zone.addEventListener('drop', (e) => {
     e.preventDefault();
-    zone.style.borderColor = ''; zone.style.background = '';
     if (e.dataTransfer.files.length) handleFiles(e.dataTransfer.files);
   });
   fileInput.addEventListener('change', () => {
@@ -541,15 +559,15 @@ function setupMultiImageUpload(inputId, zoneId, listId, statusId, initialUrls = 
   });
 
   async function handleFiles(files) {
-    status.textContent = `Uploading ${files.length} images...`;
-    status.style.color = 'var(--text-muted)';
-
+    status.textContent = `Optimizing & Uploading ${files.length} images...`;
+    status.style.color = 'var(--accent)';
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       if (!file.type.startsWith('image/')) continue;
       try {
+        const compressed = await compressImage(file, 600, 0.4);
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('image', compressed);
         const res = await API.admin.uploadImage(formData);
         if (res.success) {
           urls.push(res.data.url);
@@ -557,12 +575,10 @@ function setupMultiImageUpload(inputId, zoneId, listId, statusId, initialUrls = 
         }
       } catch (e) { console.error('Gallery upload failed:', e); }
     }
-    status.textContent = '✓ Gallery updated';
-    status.style.color = 'var(--success)';
+    status.textContent = '✓ Updated';
   }
 }
 
-// Global helper for gallery item removal
 window._removeGalleryItem = (listId, idx) => {
   const list = document.getElementById(listId);
   if (list && list._galleryUrls) {

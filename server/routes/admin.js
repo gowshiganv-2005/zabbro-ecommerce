@@ -14,28 +14,35 @@ const { readExcel, writeExcel, updateRow } = require('../utils/excel');
 const JWT_SECRET = process.env.JWT_SECRET || 'ecommerce_secret_key_2026';
 
 // Configure multer for image uploads
-// Forces memory storage on Vercel/Render to avoid read-only filesystem errors
-const isServerless = process.env.VERCEL === '1' || !!process.env.RENDER || !!process.env.VERCEL;
+const isVercel = process.env.VERCEL === '1' || !!process.env.VERCEL;
+const isRender = !!process.env.RENDER;
+const isServerless = isVercel || isRender;
 
 let storage;
+const uploadPath = path.join(process.cwd(), 'public', 'uploads', 'products');
+
 if (isServerless) {
-    console.log('☁️ Serving in Serverless environment - Using Memory Storage');
+    console.log(`☁️ Serverless Environment Detected (Vercel: ${isVercel}, Render: ${isRender}) - Using Memory Storage`);
     storage = multer.memoryStorage();
 } else {
     try {
-        const uploadPath = path.join(__dirname, '..', '..', 'public', 'uploads', 'products');
+        console.log(`💻 Local Environment - Target Upload Path: ${uploadPath}`);
         if (!fs.existsSync(uploadPath)) {
             fs.mkdirSync(uploadPath, { recursive: true });
+            console.log('✅ Created upload directory');
         }
         storage = multer.diskStorage({
             destination: (req, file, cb) => cb(null, uploadPath),
             filename: (req, file, cb) => {
-                const ext = path.extname(file.originalname);
-                cb(null, `product_${Date.now()}${ext}`);
+                const ext = path.extname(file.originalname).toLowerCase();
+                const uniqueName = `product_${Date.now()}_${Math.round(Math.random() * 1E9)}${ext}`;
+                cb(null, uniqueName);
             }
         });
+        console.log('📦 Multer Disk Storage initialized successfully');
     } catch (e) {
-        console.warn('⚠️ Disk storage setup failed, falling back to memory storage');
+        console.error('❌ Disk storage setup failed:', e.message);
+        console.log('⚠️ Falling back to Memory Storage (Base64 Mode)');
         storage = multer.memoryStorage();
     }
 }
@@ -192,7 +199,7 @@ router.put('/inventory/:productId', adminAuth, async (req, res) => {
 
 // POST /api/admin/upload - Upload product image
 router.post('/upload', adminAuth, (req, res) => {
-    upload.single('image')(req, res, (err) => {
+    upload.single('image')(req, res, async (err) => {
         if (err instanceof multer.MulterError) {
             console.error('Multer Error:', err);
             return res.status(400).json({ success: false, message: `Upload error: ${err.message}` });
@@ -208,9 +215,9 @@ router.post('/upload', adminAuth, (req, res) => {
 
             let imageUrl;
             if (req.file.buffer) {
-                // Convert to Base64 for Cloud-based storage (Google Sheets)
-                const b64 = req.file.buffer.toString('base64');
-                imageUrl = `data:${req.file.mimetype};base64,${b64}`;
+                // Upload to Cloudinary (Bypasses Google Sheets 50K char limit)
+                const { uploadToCloudinary } = require('../utils/cloudinary');
+                imageUrl = await uploadToCloudinary(req.file.buffer, req.file.originalname);
             } else {
                 // Local path for disk storage
                 imageUrl = `/uploads/products/${req.file.filename}`;
