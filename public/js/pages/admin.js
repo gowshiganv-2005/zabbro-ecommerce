@@ -67,7 +67,7 @@ async function loadOverviewTab(el) {
         <div class="admin-card-header"><h3>Recent Orders</h3></div>
         <div class="admin-card-body">
           <table class="admin-table"><thead><tr><th>Order</th><th>Customer</th><th>Total</th><th>Status</th></tr></thead><tbody>
-          ${d.recentOrders.map(o => `<tr><td style="font-weight:600">${o.id}</td><td>${o.userName}</td><td>${formatPrice(o.total)}</td><td><span class="status-badge status-${o.status}">${o.status}</span></td></tr>`).join('')}
+          ${d.recentOrders.map(o => `<tr><td style="font-weight:600">${o.id}</td><td>${o.userName}</td><td>${formatPrice(o.total)}</td><td><span class="status-badge status-${o.status}">${String(o.status || '')}</span></td></tr>`).join('')}
           </tbody></table>
         </div>
       </div>
@@ -141,7 +141,7 @@ async function loadOrdersTab(el) {
               </div>
             </td>
             <td style="font-weight:600">${formatPrice(o.total)}</td>
-            <td><span class="status-badge status-${o.status}">${o.status}</span></td>
+            <td><span class="status-badge status-${o.status}">${String(o.status || '')}</span></td>
             <td>
               <div style="display:flex;gap:8px;align-items:center">
                 <select class="form-select" style="padding:6px 8px;font-size:.75rem;min-width:110px" onchange="updateOrderStatus('${o.id}',this.value)">
