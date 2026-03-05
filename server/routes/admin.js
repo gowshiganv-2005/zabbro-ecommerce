@@ -10,6 +10,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { readExcel, writeExcel, updateRow } = require('../utils/excel');
+const { uploadToCloudinary } = require('../utils/cloudinary');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'ecommerce_secret_key_2026';
 

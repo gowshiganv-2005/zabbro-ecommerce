@@ -5,13 +5,16 @@
 
 const cloudinary = require('cloudinary').v2;
 const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '..', '..', '.env') });
+const dotenv = require('dotenv');
 
-// Configuration check
+// Force load the .env from root
+const envPath = path.join(__dirname, '..', '..', '.env');
+dotenv.config({ path: envPath });
+
 const isCloudinaryConfigured = () => {
-    return process.env.CLOUDINARY_CLOUD_NAME &&
+    return !!(process.env.CLOUDINARY_CLOUD_NAME &&
         process.env.CLOUDINARY_API_KEY &&
-        process.env.CLOUDINARY_API_SECRET;
+        process.env.CLOUDINARY_API_SECRET);
 };
 
 if (isCloudinaryConfigured()) {
@@ -20,8 +23,6 @@ if (isCloudinaryConfigured()) {
         api_key: String(process.env.CLOUDINARY_API_KEY).trim(),
         api_secret: String(process.env.CLOUDINARY_API_SECRET).trim(),
     });
-} else {
-    console.warn('⚠️ Cloudinary is not fully configured in utils/cloudinary.js');
 }
 
 /** Upload image buffer to Cloudinary */
@@ -31,7 +32,9 @@ async function uploadToCloudinary(buffer, fileName) {
         if (!process.env.CLOUDINARY_CLOUD_NAME) missing.push('CLOUDINARY_CLOUD_NAME');
         if (!process.env.CLOUDINARY_API_KEY) missing.push('CLOUDINARY_API_KEY');
         if (!process.env.CLOUDINARY_API_SECRET) missing.push('CLOUDINARY_API_SECRET');
-        throw new Error(`Cloudinary Configuration Missing: ${missing.join(', ')}. Please verify .env file and restart server.`);
+        const err = `Cloudinary Configuration Missing: ${missing.join(', ')}. Please verify .env file.`;
+        console.error(`[Cloudinary Upload] ❌ ${err}`);
+        throw new Error(err);
     }
 
     return new Promise((resolve, reject) => {
