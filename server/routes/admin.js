@@ -13,43 +13,12 @@ const { readExcel, writeExcel, updateRow } = require('../utils/excel');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'ecommerce_secret_key_2026';
 
-// Configure multer for image uploads
-const isVercel = process.env.VERCEL === '1' || !!process.env.VERCEL;
-const isRender = !!process.env.RENDER;
-const isServerless = isVercel || isRender;
-
-let storage;
-const uploadPath = path.join(process.cwd(), 'public', 'uploads', 'products');
-
-if (isServerless) {
-    console.log(`☁️ Serverless Environment Detected (Vercel: ${isVercel}, Render: ${isRender}) - Using Memory Storage`);
-    storage = multer.memoryStorage();
-} else {
-    try {
-        console.log(`💻 Local Environment - Target Upload Path: ${uploadPath}`);
-        if (!fs.existsSync(uploadPath)) {
-            fs.mkdirSync(uploadPath, { recursive: true });
-            console.log('✅ Created upload directory');
-        }
-        storage = multer.diskStorage({
-            destination: (req, file, cb) => cb(null, uploadPath),
-            filename: (req, file, cb) => {
-                const ext = path.extname(file.originalname).toLowerCase();
-                const uniqueName = `product_${Date.now()}_${Math.round(Math.random() * 1E9)}${ext}`;
-                cb(null, uniqueName);
-            }
-        });
-        console.log('📦 Multer Disk Storage initialized successfully');
-    } catch (e) {
-        console.error('❌ Disk storage setup failed:', e.message);
-        console.log('⚠️ Falling back to Memory Storage (Base64 Mode)');
-        storage = multer.memoryStorage();
-    }
-}
+// Configure multer for memory storage (Always use Cloudinary)
+const storage = multer.memoryStorage();
 
 const upload = multer({
     storage,
-    limits: { fileSize: 2 * 1024 * 1024 }, // 2MB limit (better for Google Sheets Base64)
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit for high-quality images
     fileFilter: (req, file, cb) => {
         const allowed = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
         const ext = path.extname(file.originalname).toLowerCase();
@@ -197,7 +166,7 @@ router.put('/inventory/:productId', adminAuth, async (req, res) => {
     }
 });
 
-// POST /api/admin/upload - Upload product image
+// POST /api/admin/upload - Upload product image to Cloudinary
 router.post('/upload', adminAuth, (req, res) => {
     upload.single('image')(req, res, async (err) => {
         if (err instanceof multer.MulterError) {
@@ -209,25 +178,25 @@ router.post('/upload', adminAuth, (req, res) => {
         }
 
         try {
-            if (!req.file) {
-                return res.status(400).json({ success: false, message: 'No file uploaded' });
+            if (!req.file || !req.file.buffer) {
+                return res.status(400).json({ success: false, message: 'No file uploaded or buffer missing' });
             }
 
-            let imageUrl;
-            if (req.file.buffer) {
-                // Upload to Cloudinary (Bypasses Google Sheets 50K char limit)
-                const { uploadToCloudinary } = require('../utils/cloudinary');
-                imageUrl = await uploadToCloudinary(req.file.buffer, req.file.originalname);
-            } else {
-                // Local path for disk storage
-                imageUrl = `/uploads/products/${req.file.filename}`;
-            }
+            const { uploadToCloudinary } = require('../utils/cloudinary');
+            console.log(`☁️ Processing image upload for ${req.file.originalname}...`);
 
-            console.log('✅ Image uploaded successfully:', imageUrl.substring(0, 50) + '...');
+            const imageUrl = await uploadToCloudinary(req.file.buffer, req.file.originalname);
+
+            console.log('✅ Image uploaded successfully to Cloudinary:', imageUrl);
             res.json({ success: true, data: { url: imageUrl }, message: 'Image uploaded successfully' });
         } catch (error) {
-            console.error('Processing Error:', error);
-            res.status(500).json({ success: false, message: 'Failed to process image', error: error.message });
+            console.error('🔥 Cloudinary Processing Error:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to process image via Cloudinary',
+                error: error.message,
+                details: 'Check CLOUDINARY credentials in .env'
+            });
         }
     });
 });

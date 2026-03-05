@@ -433,23 +433,28 @@ function setupImageUpload(inputId, previewId, wrapId, placeholderId, zoneId, sta
 
     status.textContent = 'Optimizing image...';
     try {
-      // Significantly more aggressive compression for Google Sheets (Max 600px, 0.4 quality)
-      // This is necessary because Base64 strings must be under 50,000 characters.
-      const compressedFile = await compressImage(file, 600, 0.4);
-      status.textContent = 'Uploading optimized image...';
+      // Use higher quality settings now that we use Cloudinary (1024px, 0.7 quality)
+      const compressedFile = await compressImage(file, 1024, 0.7);
+
+      status.textContent = 'Uploading to Cloud...';
       const formData = new FormData();
       formData.append('image', compressedFile);
       const res = await API.admin.uploadImage(formData);
+
       if (res.success) {
-        status.textContent = '✓ Uploaded';
+        status.textContent = '✓ Uploaded Successfully';
         status.style.color = 'var(--success)';
         onUploaded(res.data.url);
       } else {
-        throw new Error(res.details || res.message || 'Upload failed');
+        // Capture detailed error message from server
+        const errMsg = res.error || res.message || 'Upload failed';
+        throw new Error(errMsg);
       }
     } catch (err) {
+      console.error('Upload Error:', err);
       status.textContent = '✗ ' + err.message;
       status.style.color = 'var(--danger)';
+      Toast.show(err.message, 'error');
     }
   }
 }
@@ -565,17 +570,22 @@ function setupMultiImageUpload(inputId, zoneId, listId, statusId, initialUrls = 
       const file = files[i];
       if (!file.type.startsWith('image/')) continue;
       try {
-        const compressed = await compressImage(file, 600, 0.4);
+        const compressed = await compressImage(file, 1024, 0.7);
         const formData = new FormData();
         formData.append('image', compressed);
         const res = await API.admin.uploadImage(formData);
         if (res.success) {
           urls.push(res.data.url);
           renderList();
+        } else {
+          Toast.show(`Failed to upload ${file.name}`, 'error');
         }
-      } catch (e) { console.error('Gallery upload failed:', e); }
+      } catch (e) {
+        console.error('Gallery upload failed:', e);
+      }
     }
     status.textContent = '✓ Updated';
+    status.style.color = 'var(--success)';
   }
 }
 
