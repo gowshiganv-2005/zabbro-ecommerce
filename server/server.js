@@ -9,13 +9,6 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 
-console.log('=========================================');
-console.log('🚀 SERVER STARTING - CLOUDINARY CONFIG CHECK');
-console.log('CLOUDINARY_CLOUD_NAME:', process.env.CLOUDINARY_CLOUD_NAME ? '✅ FOUND' : '❌ MISSING');
-console.log('CLOUDINARY_API_KEY:', process.env.CLOUDINARY_API_KEY ? '✅ FOUND' : '❌ MISSING');
-console.log('CLOUDINARY_API_SECRET:', process.env.CLOUDINARY_API_SECRET ? '✅ FOUND' : '❌ MISSING');
-console.log('=========================================');
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -123,6 +116,18 @@ app.listen(PORT, () => {
 ║                                              ║
 ╚══════════════════════════════════════════════╝
     `);
+});
+
+// ═══════════════════════════════════════
+// GLOBAL PROCESS ERROR HANDLING (Lifetime Stability)
+// ═══════════════════════════════════════
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('🔥 Unhandled Rejection at:', promise, 'reason:', reason);
+});
+
+process.on('uncaughtException', (err, origin) => {
+    console.error(`🔥 Uncaught Exception: ${err.message}`);
+    console.error(`📍 Origin: ${origin}`);
 });
 
 module.exports = app;

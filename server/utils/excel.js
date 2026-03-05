@@ -67,10 +67,40 @@ async function getSheetDataRaw(sheetName) {
   }
 
   try {
+    const range = `${sheetName}!A1:Z2000`;
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${sheetName}!A1:Z2000`,
+      range: range,
+    }).catch(async (err) => {
+      if (err.message && err.message.toLowerCase().includes('not found')) {
+        console.warn(`⚠️ Sheet "${sheetName}" missing. Recreating...`);
+        // Sheet missing, try to create it
+        await sheets.spreadsheets.batchUpdate({
+          spreadsheetId: SPREADSHEET_ID,
+          resource: { requests: [{ addSheet: { properties: { title: sheetName } } }] }
+        }).catch(() => { }); // Ignore if add fails (might have just been created)
+
+        // Define default headers for the new sheet
+        const headersMap = {
+          'Products': ['id', 'name', 'price', 'originalPrice', 'category', 'subcategory', 'description', 'image', 'images', 'stock', 'rating', 'reviewCount', 'featured', 'bestSeller', 'brand', 'tags'],
+          'Users': ['id', 'name', 'email', 'password', 'role', 'phone', 'address', 'createdAt', 'lastLogin'],
+          'Orders': ['id', 'userId', 'userName', 'userEmail', 'userPhone', 'products', 'total', 'status', 'createdAt'],
+          'Inventory': ['productId', 'productName', 'currentStock', 'reservedStock', 'availableStock', 'reorderLevel', 'reorderQuantity', 'lastRestocked', 'supplier', 'status'],
+          'Reviews': ['id', 'productId', 'userId', 'rating', 'comment', 'createdAt']
+        };
+
+        const headers = headersMap[sheetName] || ['id'];
+        await sheets.spreadsheets.values.update({
+          spreadsheetId: SPREADSHEET_ID,
+          range: `${sheetName}!A1`,
+          valueInputOption: 'RAW',
+          resource: { values: [headers] }
+        });
+        return { data: { values: [headers] } };
+      }
+      throw err;
     });
+
     const rows = response.data.values;
     if (!rows || rows.length === 0) return { data: [], headers: [] };
 

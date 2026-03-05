@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "description": "Premium E-Commerce Store with Excel-based Backend",
   "main": "server/server.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "start": "node server/server.js",
-    "dev": "node --watch-path=server/routes --watch-path=server/utils --watch-path=server/server.js server/server.js",
-    "setup": "node server/setup-data.js"
+    "dev": "node --watch-path=server server/server.js",
+    "setup": "node server/setup-data.js",
+    "prod": "set NODE_ENV=production && node server/server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
