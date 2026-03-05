@@ -4,6 +4,8 @@
  */
 
 const cloudinary = require('cloudinary').v2;
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '..', '..', '.env') });
 
 // Configuration check
 const isCloudinaryConfigured = () => {
@@ -15,11 +17,11 @@ const isCloudinaryConfigured = () => {
 if (isCloudinaryConfigured()) {
     cloudinary.config({
         cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-        api_key: String(process.env.CLOUDINARY_API_KEY), // Ensure string
-        api_secret: process.env.CLOUDINARY_API_SECRET,
+        api_key: String(process.env.CLOUDINARY_API_KEY).trim(),
+        api_secret: String(process.env.CLOUDINARY_API_SECRET).trim(),
     });
 } else {
-    console.warn('⚠️ Cloudinary is not fully configured. Check .env file.');
+    console.warn('⚠️ Cloudinary is not fully configured in utils/cloudinary.js');
 }
 
 /** Upload image buffer to Cloudinary */
