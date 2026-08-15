@@ -24,6 +24,82 @@ function renderHomePage() {
       </div>
     </section>
 
+    <!-- Services Section -->
+    <section class="section" id="services-section" style="background:var(--white);padding-bottom:20px">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">What We Offer</div>
+          <h2 class="section-title">Our Services</h2>
+          <p class="section-subtitle">Empowering businesses with intelligent digital solutions and cutting-edge technology.</p>
+        </div>
+        <div class="services-grid">
+          <!-- Website Services -->
+          <div class="service-card fade-in" style="animation-delay:.1s">
+            <div>
+              <div class="service-icon-wrap">
+                <i data-lucide="globe" style="width:26px;height:26px"></i>
+              </div>
+              <span class="service-tag">Web & E-Commerce</span>
+              <h3 class="service-title">Website Services</h3>
+              <p class="service-desc">Custom web application development, responsive design, and high-conversion e-commerce platforms engineered for growth.</p>
+            </div>
+            <a href="#/about#contact" class="service-link">
+              <span>Explore Services</span>
+              <i data-lucide="arrow-right" style="width:16px;height:16px"></i>
+            </a>
+          </div>
+
+          <!-- Data Analysis and Reporting Services -->
+          <div class="service-card fade-in" style="animation-delay:.2s">
+            <div>
+              <div class="service-icon-wrap">
+                <i data-lucide="bar-chart-2" style="width:26px;height:26px"></i>
+              </div>
+              <span class="service-tag">Analytics & Insights</span>
+              <h3 class="service-title">Data Analysis & Reporting</h3>
+              <p class="service-desc">Transform raw data into actionable insights with automated reporting, KPI dashboards, and intelligent business analytics.</p>
+            </div>
+            <a href="#/about#contact" class="service-link">
+              <span>Learn More</span>
+              <i data-lucide="arrow-right" style="width:16px;height:16px"></i>
+            </a>
+          </div>
+
+          <!-- AI Services -->
+          <div class="service-card fade-in" style="animation-delay:.3s">
+            <div>
+              <div class="service-icon-wrap">
+                <i data-lucide="sparkles" style="width:26px;height:26px"></i>
+              </div>
+              <span class="service-tag">Artificial Intelligence</span>
+              <h3 class="service-title">AI Services</h3>
+              <p class="service-desc">Cutting-edge machine learning solutions, predictive models, and custom AI workflows built to automate and elevate your business.</p>
+            </div>
+            <a href="#/about#contact" class="service-link">
+              <span>Get AI Solutions</span>
+              <i data-lucide="arrow-right" style="width:16px;height:16px"></i>
+            </a>
+          </div>
+
+          <!-- Chatbot Services -->
+          <div class="service-card fade-in" style="animation-delay:.4s">
+            <div>
+              <div class="service-icon-wrap">
+                <i data-lucide="bot" style="width:26px;height:26px"></i>
+              </div>
+              <span class="service-tag">Conversational AI</span>
+              <h3 class="service-title">Chatbot Services</h3>
+              <p class="service-desc">Intelligent AI chatbots for 24/7 customer support automation, lead generation, and seamless multi-channel integration.</p>
+            </div>
+            <a href="#/about#contact" class="service-link">
+              <span>Deploy Chatbot</span>
+              <i data-lucide="arrow-right" style="width:16px;height:16px"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Categories Section -->
     <section class="section" id="categories-section">
       <div class="container">
@@ -101,6 +177,9 @@ function renderHomePage() {
 
   loadHomeData();
   initHeroParallax();
+  if (typeof lucide !== 'undefined' && lucide.createIcons) {
+    lucide.createIcons();
+  }
 }
 
 /** Parallax scroll effect for hero background */
