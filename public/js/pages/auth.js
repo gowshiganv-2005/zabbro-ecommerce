@@ -13,6 +13,7 @@ function renderAuthPage(mode = 'login') {
   app.innerHTML = `
     <section class="auth-page">
       <div class="auth-card fade-in">
+        <a href="#/" style="display:block;text-align:center"><img src="/images/logo-dark.svg" alt="ZABBRO" class="brand-logo-img auth-logo-img"></a>
         <h1>${isLogin ? 'Welcome back' : 'Create account'}</h1>
         <p class="subtitle">${isLogin ? 'Sign in to access your account' : 'Join ZABBRO for exclusive benefits'}</p>
         <form id="auth-form">

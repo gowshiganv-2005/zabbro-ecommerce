@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Admin Dashboard Page Module
  */
 function renderAdminPage(tab = 'overview') {
@@ -10,8 +10,12 @@ function renderAdminPage(tab = 'overview') {
   const app = document.getElementById('app');
   app.innerHTML = `
     <section class="admin-page container fade-in">
-      <div class="admin-header">
-        <h1>Dashboard</h1>
+      <div class="admin-header" style="display:flex;align-items:center;justify-space-between;margin-bottom:24px">
+        <div style="display:flex;align-items:center;gap:16px">
+          <a href="#/"><img src="/images/logo-dark.svg" alt="ZABBRO Admin" class="brand-logo-img admin-logo-img"></a>
+          <span style="color:var(--text-tertiary);font-weight:300">/</span>
+          <h1 style="font-size:1.5rem;margin:0">Dashboard</h1>
+        </div>
         <div style="display:flex;gap:8px">
           <button class="btn btn-sm btn-secondary" onclick="Store.logout()">Logout</button>
         </div>

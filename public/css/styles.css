@@ -245,16 +245,72 @@ hr {
 }
 
 .logo {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 4px;
-  color: var(--text-primary);
-  transition: var(--transition)
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition: var(--transition);
 }
 
 .logo:hover {
-  opacity: .7
+  opacity: .8;
+  transform: translateY(-1px);
+}
+
+/* Brand Logo Component Styles */
+.brand-logo-img {
+  display: inline-block;
+  vertical-align: middle;
+  height: auto;
+  width: auto;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.header-logo-img {
+  height: 26px;
+  max-width: 175px;
+}
+
+.loading-logo-img {
+  height: 52px;
+  max-width: 280px;
+  filter: drop-shadow(0 4px 16px rgba(255, 255, 255, 0.2));
+  animation: logoPulse 2s infinite ease-in-out;
+}
+
+.footer-logo-img {
+  height: 30px;
+  max-width: 180px;
+  margin-bottom: 8px;
+}
+
+.auth-logo-img {
+  height: 36px;
+  max-width: 210px;
+  margin: 0 auto 20px auto;
+  display: block;
+}
+
+.admin-logo-img {
+  height: 26px;
+  max-width: 160px;
+}
+
+.confirmation-logo-img {
+  height: 36px;
+  max-width: 220px;
+  margin: 0 auto 16px auto;
+  display: block;
+}
+
+@keyframes logoPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.92;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 1;
+  }
 }
 
 .nav-desktop {

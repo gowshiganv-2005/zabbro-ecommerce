@@ -5,7 +5,8 @@ function renderAboutPage() {
   const app = document.getElementById('app');
   app.innerHTML = `
     <section class="about-page container">
-      <div class="about-hero fade-in-up">
+      <div class="about-hero fade-in-up" style="text-align:center">
+        <div style="margin-bottom:16px"><img src="/images/logo-dark.svg" alt="ZABBRO" class="brand-logo-img" style="height:44px;max-width:260px"></div>
         <div class="section-label">Our Story</div>
         <h1>About ZABBRO</h1>
         <p>We believe in the power of thoughtful design. Every product in our collection is carefully curated for quality, sustainability, and timeless aesthetics. Our mission is to elevate everyday living through premium craftsmanship.</p>
