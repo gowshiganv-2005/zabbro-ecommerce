@@ -17,7 +17,7 @@ async function renderOrderConfirmationPage(orderId) {
         app.innerHTML = `
       <section class="confirmation-page">
         <div class="confirmation-card fade-in">
-          <img src="/zabbro-circle-logo.png" alt="ZABBRO" class="brand-logo-img confirmation-logo-img">
+          <img src="/images/logo-dark.svg" alt="ZABBRO" class="brand-logo-img confirmation-logo-img">
           <div class="confirmation-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
