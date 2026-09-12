@@ -1,0 +1,17 @@
+# Robots.txt for ZABBRO (https://zabbro.space)
+# Designed for maximum search engine crawlability and #1 ranking for 'zabbro'
+
+User-agent: *
+Allow: /
+Allow: /images/
+Allow: /css/
+Allow: /js/
+Disallow: /admin
+Disallow: /api/
+Disallow: /tmp/
+
+# Crawl delay (fast indexing)
+Crawl-delay: 1
+
+# Official Sitemap location
+Sitemap: https://zabbro.space/sitemap.xml

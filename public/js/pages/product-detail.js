@@ -9,6 +9,7 @@ async function renderProductDetailPage(productId) {
     const res = await API.products.get(productId);
     if (!res.success) throw new Error('Product not found');
     const p = res.data;
+    if (window.SEO) SEO.updateProductSchema(p);
     const discount = p.originalPrice > p.price ? Math.round((1 - p.price / p.originalPrice) * 100) : 0;
     const stockStatus = p.stock > 20 ? 'In Stock' : p.stock > 0 ? `Only ${p.stock} left` : 'Out of Stock';
     const stockClass = p.stock > 20 ? '' : p.stock > 0 ? 'low' : 'out';

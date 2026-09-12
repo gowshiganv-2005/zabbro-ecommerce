@@ -30,3 +30,8 @@ server/test-order-flow.js
 *.log
 server/*.txt
 server/*.log
+
+# Test Artifacts
+playwright-screenshots/
+test-results/
+

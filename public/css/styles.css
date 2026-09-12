@@ -305,9 +305,6 @@ hr {
   margin: 0 auto 16px auto;
   display: block;
 }
-  margin: 0 auto 16px auto;
-  display: block;
-}
 
 @keyframes logoPulse {
   0%, 100% {
@@ -4128,7 +4125,7 @@ hr {
   }
 
   .mini-cart {
-    width: 90vw
+    width: 100vw
   }
 }
 
@@ -4353,4 +4350,526 @@ hr {
 
 .service-link:hover svg {
   transform: translateX(4px);
+}
+
+/* ══════════════════════════════════════════════
+   MOBILE PORTRAIT PERFECTION — v2.1
+   Comprehensive fixes for flawless mobile UX
+   ══════════════════════════════════════════════ */
+
+/* ── Safe Area Inset Support (notch/home bar) ── */
+:root {
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+}
+
+.header {
+  padding-top: var(--safe-top);
+}
+
+.mini-cart {
+  padding-bottom: var(--safe-bottom);
+}
+
+.mini-cart-footer {
+  padding-bottom: calc(20px + var(--safe-bottom));
+}
+
+/* ── Hero Decorative Cards — hide on tablet/mobile ── */
+@media (max-width: 900px) {
+  .hero-deco {
+    display: none;
+  }
+
+  .hero-content {
+    max-width: 100%;
+  }
+
+  /* Remove the geometric vertical line on mobile */
+  .hero::after {
+    display: none;
+  }
+}
+
+/* ── Product Card: Always-visible wishlist on touch ── */
+@media (hover: none) {
+  .product-card-wishlist {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .product-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .product-card:active {
+    transform: scale(0.98);
+  }
+}
+
+/* ── Minimum 44px touch targets for accessibility ── */
+@media (hover: none) {
+  .header-btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .qty-btn {
+    min-width: 44px;
+    min-height: 44px;
+    width: 44px;
+    height: 44px;
+  }
+
+  .pd-qty-btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .mini-cart-close {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .search-close {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-nav-link {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+  }
+
+  .filter-option {
+    min-height: 44px;
+  }
+
+  .social-link {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .account-tab {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  .admin-tab {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* ── Mobile (≤768px) — consolidated additions ── */
+@media (max-width: 768px) {
+
+  /* Toast: full-width on mobile, no clip */
+  .toast-container {
+    top: auto;
+    bottom: calc(16px + var(--safe-bottom));
+    right: 16px;
+    left: 16px;
+  }
+
+  .toast {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* iOS form zoom prevention — must be 16px */
+  .form-input,
+  .form-select,
+  .form-textarea,
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="search"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  /* Product Detail — stack actions and controls properly */
+  .pd-layout {
+    padding: 20px 0 60px;
+  }
+
+  .pd-title {
+    font-size: 1.5rem;
+  }
+
+  .pd-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .pd-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .pd-qty-controls {
+    flex: 1;
+  }
+
+  .pd-quantity {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .pd-thumbnails {
+    gap: 8px;
+  }
+
+  .pd-thumbnail {
+    width: 64px;
+    height: 64px;
+  }
+
+  .pd-features {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  /* Account tabs — scrollable */
+  .account-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+    border-radius: 12px;
+  }
+
+  .account-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .account-tab {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* CTA Banner — reduce padding */
+  .cta-banner {
+    padding: 40px 24px;
+    border-radius: var(--radius-lg);
+  }
+
+  .cta-banner h2 {
+    font-size: 1.5rem;
+  }
+
+  /* Confirmation card */
+  .confirmation-card {
+    padding: 32px 20px;
+  }
+
+  /* About page */
+  .about-page {
+    padding: 40px 0 60px;
+  }
+
+  .about-hero h1 {
+    font-size: 1.75rem;
+  }
+
+  /* Footer bottom text wrapping */
+  .footer-bottom p {
+    line-height: 1.6;
+  }
+
+  /* Reviews summary */
+  .reviews-summary {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    text-align: center;
+  }
+
+  /* Product detail features — 2-col on tablet/medium mobile */
+  .pd-features {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ── Small phones (≤480px) — consolidated additions ── */
+@media (max-width: 480px) {
+
+  /* Hide signup button earlier to prevent header overflow */
+  #signup-header-btn {
+    display: none !important;
+  }
+
+  /* Header actions — tighten spacing */
+  .header-actions {
+    gap: 2px;
+  }
+
+  .header-btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  /* Product detail — fully stack */
+  .pd-features {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .pd-title {
+    font-size: 1.375rem;
+  }
+
+  .pd-price-current {
+    font-size: 1.5rem;
+  }
+
+  /* Auth card — no margin clipping */
+  .auth-page {
+    padding: 24px 0;
+    align-items: flex-start;
+  }
+
+  .auth-card {
+    margin: 0;
+    border-radius: 0;
+    min-height: calc(100vh - var(--header-h));
+    box-shadow: none;
+    border-left: none;
+    border-right: none;
+  }
+
+  /* Confirmation page */
+  .confirmation-page {
+    padding: 24px 0;
+    align-items: flex-start;
+  }
+
+  .confirmation-card {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    box-shadow: none;
+    min-height: auto;
+  }
+
+  /* Checkout — sticky cart summary becomes regular on mobile */
+  .checkout-layout {
+    gap: 16px;
+  }
+
+  /* Admin table always horizontally scrollable */
+  .admin-card-body {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Sections tighter */
+  .section {
+    padding: 32px 0;
+  }
+
+  .section-header {
+    margin-bottom: 28px;
+  }
+
+  /* Mobile nav links — bigger touch targets */
+  .mobile-nav-link {
+    padding: 14px 0;
+    font-size: 1rem;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 32px 0 16px;
+  }
+
+  .footer-bottom {
+    padding: 16px 0 calc(16px + var(--safe-bottom));
+    font-size: .6875rem;
+  }
+
+  .social-link {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Search input — always 16px to prevent zoom */
+  .search-input {
+    font-size: 16px !important;
+  }
+
+  /* Cart summary — clear sticky so it stacks naturally */
+  .cart-summary {
+    position: static;
+  }
+
+  /* Pagination — smaller buttons */
+  .pagination-btn {
+    width: 36px;
+    height: 36px;
+    font-size: .8125rem;
+  }
+
+  /* Badge visibility on tiny screens */
+  .badge {
+    font-size: .5rem;
+    padding: 2px 6px;
+  }
+}
+
+/* ── Extra-small phones (≤360px) — consolidated additions ── */
+@media (max-width: 360px) {
+
+  /* Notification badge hidden — no room */
+  #notification-toggle {
+    display: none;
+  }
+
+  .header-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .header-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Product cards — tightest layout */
+  .product-card-body {
+    padding: 4px 6px 6px;
+  }
+
+  /* Mini cart item — compact */
+  .mini-cart-item-img {
+    width: 52px;
+    height: 52px;
+  }
+
+  /* Checkout sections */
+  .checkout-section {
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  /* Auth card */
+  .auth-card {
+    padding: 20px 12px;
+  }
+}
+
+/* ── Landscape mobile — prevent content from being cut off ── */
+@media (max-width: 768px) and (orientation: landscape) {
+  .hero {
+    min-height: 100vh;
+    padding-top: var(--header-h);
+  }
+
+  .mobile-nav {
+    max-height: calc(100vh - var(--header-h));
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mini-cart {
+    padding-right: var(--safe-right);
+  }
+}
+
+/* ── Prevent horizontal overflow globally ── */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Ensure images never cause overflow */
+img, video, svg, canvas {
+  max-width: 100%;
+}
+
+/* Ensure tables are contained */
+table {
+  max-width: 100%;
+}
+
+/* ── Smooth scrolling for mobile ── */
+@media (max-width: 768px) {
+  html {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* Better tap highlight */
+  * {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.06);
+  }
+
+  button, a {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.06);
+  }
+}
+
+/* ── About Page Contact Section ── */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 64px;
+}
+
+.contact-form-row-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.contact-form-wrap {
+  background: var(--white);
+  padding: 40px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+@media (max-width: 900px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-form-wrap {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-form-row-inner {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .contact-grid {
+    gap: 24px;
+  }
+
+  .contact-form-wrap {
+    padding: 16px;
+    border-radius: var(--radius-md);
+  }
 }

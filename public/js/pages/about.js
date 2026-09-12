@@ -69,7 +69,7 @@ function renderAboutPage() {
       <div id="contact" class="contact-section fade-in" style="margin-top:80px;padding-bottom:100px">
         <div class="section-label">Get in Touch</div>
         <h2 style="font-family:var(--font-serif);font-size:2rem;margin-bottom:48px">Contact Us</h2>
-        <div class="contact-grid" style="display:grid;grid-template-columns:1fr 1.5fr;gap:64px">
+        <div class="contact-grid">
           <div class="contact-info">
             <div style="margin-bottom:32px">
               <h3 style="font-size:1.125rem;margin-bottom:12px">Support Hours</h3>
@@ -84,9 +84,9 @@ function renderAboutPage() {
               <p style="color:var(--text-secondary)">Email: support@zabbro.com<br>Phone: +91 9025361098 / +91 8248957918</p>
             </div>
           </div>
-          <div class="contact-form-wrap" style="background:var(--white);padding:40px;border-radius:var(--radius-lg);box-shadow:var(--shadow-md)">
+          <div class="contact-form-wrap">
             <form id="contact-form" onsubmit="event.preventDefault(); Toast.show('Message sent! We will get back to you soon.', 'success'); this.reset();">
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+              <div class="contact-form-row-inner">
                 <div class="form-group"><label class="form-label">Name</label><input type="text" class="form-input" required placeholder="Your Name"></div>
                 <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" required placeholder="your@email.com"></div>
               </div>

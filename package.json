@@ -10,7 +10,11 @@
     "start": "node server/server.js",
     "dev": "node --watch-path=server server/server.js",
     "setup": "node server/setup-data.js",
-    "prod": "set NODE_ENV=production && node server/server.js"
+    "prod": "set NODE_ENV=production && node server/server.js",
+    "test:mobile": "npx playwright test tests/mobile.spec.js",
+    "test:mobile:headed": "npx playwright test tests/mobile.spec.js --headed",
+    "test:mobile:iphone": "npx playwright test tests/mobile.spec.js --project='iPhone SE' --project='iPhone 14'",
+    "test:mobile:report": "npx playwright show-report playwright-report"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -26,5 +30,8 @@
     "nodemailer": "^8.0.1",
     "uuid": "^9.0.0",
     "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0"
   }
 }

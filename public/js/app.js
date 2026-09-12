@@ -20,26 +20,99 @@
 
         switch (segments[0] || '') {
             case '': case 'home':
-                setActiveNav('home'); renderHomePage(); break;
+                setActiveNav('home');
+                if (window.SEO) SEO.update({
+                    title: 'ZABBRO — Official Store | Digital Solutions, E-Commerce & Innovation',
+                    description: 'Official store of ZABBRO (Zabbro Digital Solutions & Zabbro Group of Companies). Discover curated premium lifestyle products, AI services, websites, and smart innovations.',
+                    canonicalPath: '#/'
+                });
+                renderHomePage();
+                break;
             case 'products':
-                setActiveNav('products'); renderProductsPage(params); break;
+                setActiveNav('products');
+                if (window.SEO) {
+                    const catTitle = params.category ? `${params.category} — Shop ZABBRO Collection` : (params.search ? `Search results for "${params.search}" | ZABBRO` : 'Shop Products & Digital Solutions | ZABBRO Official Store');
+                    SEO.update({
+                        title: catTitle,
+                        description: `Explore ${params.category ? params.category + ' in' : 'all products and services at'} ZABBRO. High-quality craftsmanship and intelligent digital solutions with worldwide shipping.`,
+                        canonicalPath: `#/products${queryString ? '?' + queryString : ''}`
+                    });
+                }
+                renderProductsPage(params);
+                break;
             case 'product':
-                setActiveNav('products'); renderProductDetailPage(segments[1]); break;
+                setActiveNav('products');
+                renderProductDetailPage(segments[1]);
+                break;
             case 'cart':
-                setActiveNav(''); renderCartPage(); break;
+                setActiveNav('');
+                if (window.SEO) SEO.update({
+                    title: 'Shopping Bag | ZABBRO Official Store',
+                    description: 'Review your selected items in your ZABBRO shopping bag and proceed to secure checkout.',
+                    canonicalPath: '#/cart'
+                });
+                renderCartPage();
+                break;
             case 'checkout':
-                setActiveNav(''); renderCheckoutPage(); break;
+                setActiveNav('');
+                if (window.SEO) SEO.update({
+                    title: 'Secure Checkout | ZABBRO Store',
+                    description: 'Complete your purchase with encrypted, secure payment options at ZABBRO.',
+                    canonicalPath: '#/checkout'
+                });
+                renderCheckoutPage();
+                break;
             case 'auth':
-                setActiveNav(''); renderAuthPage(segments[1] || 'login'); break;
+                setActiveNav('');
+                if (window.SEO) SEO.update({
+                    title: `${segments[1] === 'signup' ? 'Create Account' : 'Sign In'} | ZABBRO Store`,
+                    description: 'Sign in or create your account to track orders and manage your ZABBRO experience.',
+                    canonicalPath: `#/auth/${segments[1] || 'login'}`
+                });
+                renderAuthPage(segments[1] || 'login');
+                break;
             case 'account':
-                setActiveNav(''); renderAccountPage(segments[1] || 'profile'); break;
+                setActiveNav('');
+                if (window.SEO) SEO.update({
+                    title: 'My Account | ZABBRO',
+                    description: 'Manage your ZABBRO profile, orders, addresses, and account security.',
+                    canonicalPath: `#/account/${segments[1] || 'profile'}`
+                });
+                renderAccountPage(segments[1] || 'profile');
+                break;
             case 'about':
-                setActiveNav('about'); renderAboutPage(); break;
+                setActiveNav('about');
+                if (window.SEO) SEO.update({
+                    title: 'About ZABBRO | Our Story & Zabbro Digital Solutions',
+                    description: 'Discover the story behind ZABBRO, our mission, worldwide shipping, quality guarantees, and direct contact details in Madurai, India.',
+                    canonicalPath: '#/about'
+                });
+                renderAboutPage();
+                break;
             case 'order-confirmation':
-                setActiveNav(''); renderOrderConfirmationPage(segments[1]); break;
+                setActiveNav('');
+                if (window.SEO) SEO.update({
+                    title: 'Order Confirmation | ZABBRO Store',
+                    description: 'Thank you for shopping with ZABBRO. Your order details and confirmation.',
+                    canonicalPath: `#/order-confirmation/${segments[1] || ''}`
+                });
+                renderOrderConfirmationPage(segments[1]);
+                break;
             case 'admin':
-                setActiveNav(''); renderAdminPage(segments[1] || 'overview'); break;
+                setActiveNav('');
+                if (window.SEO) SEO.update({
+                    title: 'Admin Dashboard | ZABBRO Management',
+                    description: 'ZABBRO Store management portal.',
+                    canonicalPath: `#/admin`
+                });
+                renderAdminPage(segments[1] || 'overview');
+                break;
             default:
+                if (window.SEO) SEO.update({
+                    title: '404 - Page Not Found | ZABBRO',
+                    description: 'The requested page could not be found on ZABBRO.',
+                    canonicalPath: '#/404'
+                });
                 document.getElementById('app').innerHTML = `
           <div style="text-align:center;padding:120px 20px">
             <h1 style="font-family:var(--font-serif);font-size:3rem;margin-bottom:12px">404</h1>
