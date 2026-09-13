@@ -75,9 +75,16 @@ def generate_exact_favicons(out_dir):
     
     img_192 = img_sq.resize((192, 192), Image.Resampling.LANCZOS)
     img_192.save(os.path.join(out_dir, "android-chrome-192x192.png"))
+    img_192.save(os.path.join(out_dir, "favicon-192x192.png"))
     
     img_180 = img_sq.resize((180, 180), Image.Resampling.LANCZOS)
     img_180.save(os.path.join(out_dir, "apple-touch-icon.png"))
+    
+    img_96 = img_sq.resize((96, 96), Image.Resampling.LANCZOS)
+    img_96.save(os.path.join(out_dir, "favicon-96x96.png"))
+
+    img_48 = img_sq.resize((48, 48), Image.Resampling.LANCZOS)
+    img_48.save(os.path.join(out_dir, "favicon-48x48.png"))
     
     img_32 = img_sq.resize((32, 32), Image.Resampling.LANCZOS)
     img_32.save(os.path.join(out_dir, "favicon-32x32.png"))
