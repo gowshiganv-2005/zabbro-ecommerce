@@ -179,10 +179,41 @@ async function initProductsPage(params) {
     document.getElementById('clear-filters')?.click();
   });
 
-  // Update title
+  // Update title & SEO Category intro
   const title = document.getElementById('shop-title');
-  if (title && state.category) title.textContent = state.category;
-  if (title && state.search) title.textContent = `Search: "${state.search}"`;
+  const catIntros = {
+    'websites': 'Explore custom high-performance website design, e-commerce stores, and web development services engineered by ZABBRO.',
+    'projects': 'Discover scalable software projects, full-stack architectures, and digital solutions designed by Zabbro Digital Solutions.',
+    't-shirts': 'Shop premium luxury lifestyle apparel and minimalist graphic tees crafted with sustainable, breathable fabrics.',
+    'tech accessories': 'Smart modern technology accessories, cables, stands, and gadgets engineered for productivity and lifestyle.',
+    'wooden products': 'Handcrafted artisanal wooden decor, organizers, and timeless natural items for modern living spaces.',
+    'plants': 'Indoor flora and botanical accessories curated to bring refreshing natural aesthetics into your home or office.',
+    'stickers': 'High-durability waterproof vinyl stickers and creative decals designed for laptops, gadgets, and accessories.',
+    'customized products': 'Personalized and bespoke merchandise tailored to your exact style and branding requirements.'
+  };
+
+  const resultsHeader = document.querySelector('.section-header');
+  let introEl = document.getElementById('shop-category-desc');
+  if (!introEl && resultsHeader) {
+    introEl = document.createElement('p');
+    introEl.id = 'shop-category-desc';
+    introEl.className = 'section-subtitle';
+    introEl.style.marginTop = '6px';
+    resultsHeader.appendChild(introEl);
+  }
+
+  if (title) {
+    if (state.category) {
+      title.textContent = `${state.category} Collection`;
+      if (introEl) introEl.textContent = catIntros[state.category.toLowerCase()] || `Browse our curated collection of ${state.category} at ZABBRO.`;
+    } else if (state.search) {
+      title.textContent = `Search: "${state.search}"`;
+      if (introEl) introEl.textContent = `Showing all matching ZABBRO products and services for "${state.search}".`;
+    } else {
+      title.textContent = 'All Products & Digital Solutions';
+      if (introEl) introEl.textContent = 'Explore our complete catalog of curated lifestyle products, web services, and tech innovations.';
+    }
+  }
 
   loadProducts(state);
 }

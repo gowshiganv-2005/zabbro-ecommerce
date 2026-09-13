@@ -24,7 +24,8 @@
                 if (window.SEO) SEO.update({
                     title: 'ZABBRO — Official Store | Digital Solutions, E-Commerce & Innovation',
                     description: 'Official store of ZABBRO (Zabbro Digital Solutions & Zabbro Group of Companies). Discover curated premium lifestyle products, AI services, websites, and smart innovations.',
-                    canonicalPath: '#/'
+                    canonicalPath: '#/',
+                    schema: SEO.getHomeFAQSchema()
                 });
                 renderHomePage();
                 break;

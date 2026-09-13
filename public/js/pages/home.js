@@ -1,36 +1,36 @@
 /**
- * Home Page Module
+ * Home Page Module — Optimized for High-Converting On-Page SEO
  */
 function renderHomePage() {
   const app = document.getElementById('app');
   app.innerHTML = `
     <!-- Hero Section -->
-    <section class="hero" id="hero-section">
+    <section class="hero" id="hero-section" aria-label="ZABBRO Official Store Welcome">
       <div class="hero-bg" id="hero-bg"></div>
       <div class="hero-overlay"></div>
       <div class="container">
         <div class="hero-content fade-in-up">
           <div class="hero-badge">
             <span class="hero-badge-dot"></span>
-            New Collection 2026
+            Official Collection 2026
           </div>
-          <h1 class="hero-title">Elevate Your <span>Everyday</span></h1>
-          <p class="hero-text">Discover a curated selection of premium products designed for those who appreciate quality, craftsmanship, and timeless design.</p>
+          <h1 class="hero-title">Elevate Your Everyday with <span>ZABBRO</span></h1>
+          <p class="hero-text">Discover curated lifestyle products, intelligent AI tools, and custom digital software engineered by Zabbro Digital Solutions for quality, craft, and impact.</p>
           <div class="hero-actions">
-            <a href="#/products" class="btn btn-primary btn-lg">Shop Collection</a>
-            <a href="#/products?featured=true" class="btn btn-secondary btn-lg">Featured Items</a>
+            <a href="#/products" class="btn btn-primary btn-lg" aria-label="Explore ZABBRO Shop Collection">Shop Collection</a>
+            <a href="#/products?featured=true" class="btn btn-secondary btn-lg" aria-label="View ZABBRO Featured Items">Featured Items</a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Services Section -->
-    <section class="section" id="services-section" style="background:var(--white);padding-bottom:20px">
+    <!-- Services Section (On-Page SEO Rich) -->
+    <section class="section" id="services-section" style="background:var(--white);padding-bottom:40px" aria-label="ZABBRO Digital Services">
       <div class="container">
         <div class="section-header">
-          <div class="section-label">What We Offer</div>
-          <h2 class="section-title">Our Services</h2>
-          <p class="section-subtitle">Empowering businesses with intelligent digital solutions and cutting-edge technology.</p>
+          <div class="section-label">Digital Solutions &amp; Innovation</div>
+          <h2 class="section-title">Our Services: Web Development, AI &amp; Automation</h2>
+          <p class="section-subtitle">Empowering modern businesses and individuals with intelligent technology and bespoke digital systems.</p>
         </div>
         <div class="services-grid">
           <!-- Website Services -->
@@ -39,12 +39,12 @@ function renderHomePage() {
               <div class="service-icon-wrap">
                 <i data-lucide="globe" style="width:26px;height:26px"></i>
               </div>
-              <span class="service-tag">Web & E-Commerce</span>
+              <span class="service-tag">Web &amp; E-Commerce</span>
               <h3 class="service-title">Website Services</h3>
-              <p class="service-desc">Custom web application development, responsive design, and high-conversion e-commerce platforms engineered for growth.</p>
+              <p class="service-desc">Custom web application development, ultra-fast responsive design, and high-conversion e-commerce platforms engineered for growth.</p>
             </div>
-            <a href="#/about#contact" class="service-link">
-              <span>Explore Services</span>
+            <a href="#/about#contact" class="service-link" aria-label="Explore ZABBRO Website Development Services">
+              <span>Explore Web Services</span>
               <i data-lucide="arrow-right" style="width:16px;height:16px"></i>
             </a>
           </div>
@@ -55,11 +55,11 @@ function renderHomePage() {
               <div class="service-icon-wrap">
                 <i data-lucide="bar-chart-2" style="width:26px;height:26px"></i>
               </div>
-              <span class="service-tag">Analytics & Insights</span>
-              <h3 class="service-title">Data Analysis & Reporting</h3>
-              <p class="service-desc">Transform raw data into actionable insights with automated reporting, KPI dashboards, and intelligent business analytics.</p>
+              <span class="service-tag">Analytics &amp; Insights</span>
+              <h3 class="service-title">Data Analysis &amp; Reporting</h3>
+              <p class="service-desc">Transform raw data into actionable business intelligence with automated KPI dashboards, metrics, and forecasting models.</p>
             </div>
-            <a href="#/about#contact" class="service-link">
+            <a href="#/about#contact" class="service-link" aria-label="Explore ZABBRO Data Analysis Services">
               <span>Learn More</span>
               <i data-lucide="arrow-right" style="width:16px;height:16px"></i>
             </a>
@@ -72,10 +72,10 @@ function renderHomePage() {
                 <i data-lucide="sparkles" style="width:26px;height:26px"></i>
               </div>
               <span class="service-tag">Artificial Intelligence</span>
-              <h3 class="service-title">AI Services</h3>
-              <p class="service-desc">Cutting-edge machine learning solutions, predictive models, and custom AI workflows built to automate and elevate your business.</p>
+              <h3 class="service-title">AI Services &amp; Models</h3>
+              <p class="service-desc">Cutting-edge machine learning solutions, predictive models, and custom AI automation workflows built to elevate enterprise efficiency.</p>
             </div>
-            <a href="#/about#contact" class="service-link">
+            <a href="#/about#contact" class="service-link" aria-label="Get ZABBRO Artificial Intelligence Solutions">
               <span>Get AI Solutions</span>
               <i data-lucide="arrow-right" style="width:16px;height:16px"></i>
             </a>
@@ -88,10 +88,10 @@ function renderHomePage() {
                 <i data-lucide="bot" style="width:26px;height:26px"></i>
               </div>
               <span class="service-tag">Conversational AI</span>
-              <h3 class="service-title">Chatbot Services</h3>
-              <p class="service-desc">Intelligent AI chatbots for 24/7 customer support automation, lead generation, and seamless multi-channel integration.</p>
+              <h3 class="service-title">Intelligent Chatbot Systems</h3>
+              <p class="service-desc">Custom AI chatbots for 24/7 customer support automation, lead generation, WhatsApp CRM integration, and instant conversion.</p>
             </div>
-            <a href="#/about#contact" class="service-link">
+            <a href="#/about#contact" class="service-link" aria-label="Deploy ZABBRO Chatbot Systems">
               <span>Deploy Chatbot</span>
               <i data-lucide="arrow-right" style="width:16px;height:16px"></i>
             </a>
@@ -101,54 +101,142 @@ function renderHomePage() {
     </section>
 
     <!-- Categories Section -->
-    <section class="section" id="categories-section">
+    <section class="section" id="categories-section" aria-label="ZABBRO Shop Categories">
       <div class="container">
         <div class="section-header">
-          <div class="section-label">Browse By</div>
-          <h2 class="section-title">Shop Categories</h2>
+          <div class="section-label">Curated Collections</div>
+          <h2 class="section-title">Shop by Category</h2>
+          <p class="section-subtitle">Explore premium projects, apparel, handcrafted wooden items, tech gear, and smart living essentials.</p>
         </div>
         <div class="categories-grid" id="categories-grid"></div>
       </div>
     </section>
 
-    <!-- Featured Products -->
-    <section class="section" style="background:var(--white);">
+    <!-- Featured Products Section -->
+    <section class="section" style="background:var(--white);" aria-label="ZABBRO Featured Products">
       <div class="container">
         <div class="section-header">
-          <div class="section-label">Handpicked</div>
-          <h2 class="section-title">Featured Products</h2>
-          <p class="section-subtitle">Our editors' selection of the finest products this season</p>
+          <div class="section-label">Handpicked by Editors</div>
+          <h2 class="section-title">Featured Products &amp; Innovations</h2>
+          <p class="section-subtitle">Our curated selection of premium products crafted for quality, durability, and aesthetics.</p>
         </div>
         <div class="product-grid" id="featured-products"></div>
         <div style="text-align:center;margin-top:40px;">
-          <a href="#/products" class="btn btn-secondary">View All Products</a>
+          <a href="#/products" class="btn btn-secondary" aria-label="View all ZABBRO products">View All Products</a>
         </div>
       </div>
     </section>
 
-    <!-- Best Sellers -->
-    <section class="section">
+    <!-- Best Sellers Section -->
+    <section class="section" aria-label="ZABBRO Best Sellers">
       <div class="container">
         <div class="section-header">
-          <div class="section-label">Most Loved</div>
-          <h2 class="section-title">Best Sellers</h2>
-          <p class="section-subtitle">Top-rated products loved by our customers</p>
+          <div class="section-label">Top Rated &amp; Loved</div>
+          <h2 class="section-title">Best Sellers: Most Loved by Customers</h2>
+          <p class="section-subtitle">Explore the most popular items verified by our global community of buyers.</p>
         </div>
         <div class="product-grid" id="bestseller-products"></div>
       </div>
     </section>
 
-    <!-- Testimonials -->
-    <section class="section" style="background:var(--white);">
+    <!-- Brand Trust & Values Section (E-E-A-T On-Page Signals) -->
+    <section class="section" style="background:var(--white);padding-top:50px;padding-bottom:50px" aria-label="Why Shop with ZABBRO">
       <div class="container">
         <div class="section-header">
-          <div class="section-label">What People Say</div>
-          <h2 class="section-title">Customer Stories</h2>
+          <div class="section-label">The ZABBRO Standard</div>
+          <h2 class="section-title">Why Choose ZABBRO?</h2>
+          <p class="section-subtitle">We merge thoughtful physical craftsmanship with innovative digital systems.</p>
+        </div>
+        <div class="about-grid" style="margin-bottom:0">
+          <div class="about-card fade-in" style="animation-delay:.1s">
+            <div class="about-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3>100% Quality Guaranteed</h3>
+            <p>Every product undergoes stringent multi-tier quality checks. From fabric density to code precision, excellence is our baseline.</p>
+          </div>
+          <div class="about-card fade-in" style="animation-delay:.2s">
+            <div class="about-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            </div>
+            <h3>Worldwide Express Shipping</h3>
+            <p>Fast, tracked global delivery to over 50 countries. Domestic Indian orders reach your doorstep within 3-5 business days.</p>
+          </div>
+          <div class="about-card fade-in" style="animation-delay:.3s">
+            <div class="about-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <h3>Dedicated 7-Day Support</h3>
+            <p>Our direct support team in Madurai, India is available to assist with orders, technical inquiries, and custom projects.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive FAQ Section (Schema.org FAQPage Rich Snippet) -->
+    <section class="section" id="faq-section" aria-label="Frequently Asked Questions about ZABBRO">
+      <div class="container" style="max-width:900px">
+        <div class="section-header">
+          <div class="section-label">Got Questions?</div>
+          <h2 class="section-title">Frequently Asked Questions</h2>
+          <p class="section-subtitle">Everything you need to know about ZABBRO products, digital services, and ordering.</p>
+        </div>
+        <div class="faq-accordion" style="display:flex;flex-direction:column;gap:16px">
+          <details class="faq-item" style="background:var(--white);padding:20px 24px;border-radius:var(--radius-md);border:1px solid var(--border);cursor:pointer">
+            <summary style="font-weight:600;font-size:1.05rem;color:var(--text-primary);list-style:none;display:flex;justify-content:space-between;align-items:center">
+              <span>What is ZABBRO and what do you offer?</span>
+              <span style="font-size:1.2rem;color:var(--text-muted)">+</span>
+            </summary>
+            <p style="margin-top:12px;color:var(--text-secondary);line-height:1.6;font-size:.95rem">
+              ZABBRO (operated by Zabbro Digital Solutions &amp; Zabbro Group of Companies) is a technology and premium lifestyle platform offering custom website development, AI &amp; chatbot solutions, luxury apparel, tech accessories, and smart products with global shipping.
+            </p>
+          </details>
+
+          <details class="faq-item" style="background:var(--white);padding:20px 24px;border-radius:var(--radius-md);border:1px solid var(--border);cursor:pointer">
+            <summary style="font-weight:600;font-size:1.05rem;color:var(--text-primary);list-style:none;display:flex;justify-content:space-between;align-items:center">
+              <span>How long does delivery take for ZABBRO orders?</span>
+              <span style="font-size:1.2rem;color:var(--text-muted)">+</span>
+            </summary>
+            <p style="margin-top:12px;color:var(--text-secondary);line-height:1.6;font-size:.95rem">
+              We deliver worldwide with express tracked shipping. Domestic deliveries within India typically take 3 to 5 business days, while international shipments arrive within 7 to 12 business days.
+            </p>
+          </details>
+
+          <details class="faq-item" style="background:var(--white);padding:20px 24px;border-radius:var(--radius-md);border:1px solid var(--border);cursor:pointer">
+            <summary style="font-weight:600;font-size:1.05rem;color:var(--text-primary);list-style:none;display:flex;justify-content:space-between;align-items:center">
+              <span>How can I order custom software, web design, or AI workflows?</span>
+              <span style="font-size:1.2rem;color:var(--text-muted)">+</span>
+            </summary>
+            <p style="margin-top:12px;color:var(--text-secondary);line-height:1.6;font-size:.95rem">
+              You can explore our Website, AI, and Automation service collections directly through our store or reach out through our Contact page for customized enterprise requirements.
+            </p>
+          </details>
+
+          <details class="faq-item" style="background:var(--white);padding:20px 24px;border-radius:var(--radius-md);border:1px solid var(--border);cursor:pointer">
+            <summary style="font-weight:600;font-size:1.05rem;color:var(--text-primary);list-style:none;display:flex;justify-content:space-between;align-items:center">
+              <span>What is your return and refund policy?</span>
+              <span style="font-size:1.2rem;color:var(--text-muted)">+</span>
+            </summary>
+            <p style="margin-top:12px;color:var(--text-secondary);line-height:1.6;font-size:.95rem">
+              We offer a 30-day hassle-free return window on physical lifestyle and accessory products. If you are not satisfied, our support team will guide you through an easy return process.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section" style="background:var(--white);" aria-label="Customer Reviews for ZABBRO">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">Verified Customer Feedback</div>
+          <h2 class="section-title">Customer Stories &amp; Testimonials</h2>
+          <p class="section-subtitle">Real experiences from customers who trust ZABBRO for their lifestyle and digital needs.</p>
         </div>
         <div class="testimonials-grid">
           <div class="testimonial-card fade-in" style="animation-delay:.1s">
             <div class="testimonial-stars">${renderStars(5)}</div>
-            <p class="testimonial-text">"The quality of products from ZABBRO is unmatched. Every item feels premium and thoughtfully designed. My home has never looked better."</p>
+            <p class="testimonial-text">"The quality of products and digital services from ZABBRO is unmatched. Every item feels premium and thoughtfully designed. Highly recommended!"</p>
             <div class="testimonial-author">
               <div class="testimonial-avatar">SC</div>
               <div><div class="testimonial-name">Sarah Chen</div><div class="testimonial-role">Interior Designer</div></div>
@@ -194,7 +282,6 @@ function initHeroParallax() {
       requestAnimationFrame(() => {
         const scrollY = window.scrollY;
         const heroH = hero.offsetHeight;
-        // Only animate while hero is visible
         if (scrollY < heroH + 100) {
           const translateY = scrollY * 0.35;
           heroBg.style.transform = `translateY(${translateY}px) scale(1.1)`;
@@ -206,7 +293,6 @@ function initHeroParallax() {
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
-  // Cleanup when navigating away
   window._heroParallaxCleanup = () => window.removeEventListener('scroll', onScroll);
 }
 
@@ -236,7 +322,7 @@ async function loadHomeData() {
         const name = cat.name || 'Unknown';
         const icon = categoryIcons[name.toLowerCase()] || defaultIcon;
         return `
-          <a href="#/products?category=${encodeURIComponent(name)}" class="category-card fade-in" style="animation-delay:${i * .1}s">
+          <a href="#/products?category=${encodeURIComponent(name)}" class="category-card fade-in" style="animation-delay:${i * .08}s" aria-label="Browse ZABBRO ${name} collection">
             <div class="category-card-icon">${icon}</div>
             <div class="category-card-name">${name}</div>
             <div class="category-card-count">${cat.count || 0} products</div>
@@ -263,7 +349,7 @@ async function loadHomeData() {
   }
 }
 
-/** Render a product card */
+/** Render an SEO-optimized product card with accessible semantics and alt attributes */
 function renderProductCard(product, index = 0) {
   const discount = product.originalPrice > product.price
     ? Math.round((1 - product.price / product.originalPrice) * 100) : 0;
@@ -271,11 +357,11 @@ function renderProductCard(product, index = 0) {
   const isBest = product.bestSeller === true || product.bestSeller === 'TRUE';
 
   return `
-    <div class="product-card fade-in" style="animation-delay:${index * .08}s">
-      <a href="#/product/${product.id}">
+    <article class="product-card fade-in" style="animation-delay:${index * .08}s" itemscope itemtype="https://schema.org/Product">
+      <a href="#/product/${product.id}" aria-label="View ZABBRO ${product.name}">
         <div class="product-card-img-wrap">
           <div class="product-card-img" style="background:var(--bg-alt);display:flex;align-items:center;justify-content:center;position:absolute;inset:0">
-            ${product.image ? `<img src="${product.image}" alt="${product.name}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">` : ''}
+            ${product.image ? `<img src="${product.image}" alt="ZABBRO — ${product.name} — ${product.category}" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover" itemprop="image" onerror="this.style.display='none'">` : ''}
             <span style="color:var(--text-muted);font-size:.75rem;position:absolute">${product.category}</span>
           </div>
           <div class="product-card-badges">
@@ -284,16 +370,18 @@ function renderProductCard(product, index = 0) {
             ${isBest ? '<span class="badge badge-best">Best Seller</span>' : ''}
           </div>
           <div class="product-card-quick-add">
-            <button class="btn btn-primary btn-full btn-sm" onclick="event.preventDefault();event.stopPropagation();Store.addToCart({id:'${product.id}',name:'${String(product.name || '').replace(/'/g, "\\'")}',price:${product.price},image:'${product.image || ''}',category:'${product.category}'})">
+            <button class="btn btn-primary btn-full btn-sm" aria-label="Add ${product.name} to shopping bag" onclick="event.preventDefault();event.stopPropagation();Store.addToCart({id:'${product.id}',name:'${String(product.name || '').replace(/'/g, "\\'")}',price:${product.price},image:'${product.image || ''}',category:'${product.category}'})">
               Add to Bag
             </button>
           </div>
         </div>
       </a>
       <div class="product-card-body">
-        <div class="product-card-category">${product.brand || product.category}</div>
-        <a href="#/product/${product.id}" class="product-card-name">${product.name}</a>
-        <div class="product-card-price">
+        <div class="product-card-category" itemprop="category">${product.brand || product.category}</div>
+        <h3 style="font-size:.95rem;margin:0 0 6px"><a href="#/product/${product.id}" class="product-card-name" itemprop="name">${product.name}</a></h3>
+        <div class="product-card-price" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+          <meta itemprop="priceCurrency" content="INR">
+          <meta itemprop="price" content="${product.price}">
           <span class="price-current">${formatPrice(product.price)}</span>
           ${product.originalPrice > product.price ? `<span class="price-original">${formatPrice(product.originalPrice)}</span>` : ''}
         </div>
@@ -302,6 +390,6 @@ function renderProductCard(product, index = 0) {
           <span class="rating-count">(${product.reviewCount || 0})</span>
         </div>
       </div>
-    </div>
+    </article>
   `;
 }

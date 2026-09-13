@@ -1,5 +1,5 @@
 /**
- * SEO Module - Dynamic Meta, OpenGraph, Canonical & Schema.org Management for ZABBRO
+ * SEO Module - Dynamic Meta, OpenGraph, Canonical, FAQ & Schema.org Management for ZABBRO
  */
 const SEO = (function () {
     'use strict';
@@ -47,6 +47,7 @@ const SEO = (function () {
         setMetaProperty('og:url', canonicalUrl);
         setMetaProperty('og:image', ogImage || DEFAULT_IMAGE);
         setMetaProperty('og:type', ogType || 'website');
+        setMetaProperty('og:site_name', 'ZABBRO');
 
         // 6. Twitter Card Tags
         setMetaProperty('twitter:title', fullTitle);
@@ -80,6 +81,47 @@ const SEO = (function () {
             script.textContent = JSON.stringify(schemaObj);
             document.head.appendChild(script);
         }
+    }
+
+    function getHomeFAQSchema() {
+        return {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "What is ZABBRO and what products/services do you offer?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "ZABBRO (operated by Zabbro Digital Solutions & Zabbro Group of Companies) is a premier digital solutions and lifestyle platform offering custom website development, AI & chatbot engineering, premium apparel, tech accessories, and smart products."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Does ZABBRO deliver worldwide?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes, ZABBRO delivers to over 50 countries worldwide with tracked express shipping. Domestic orders in India arrive within 3-5 business days."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "How can I order custom software, web design, or AI services from ZABBRO?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "You can explore our Website, AI, and Automation service collections directly through our store or reach out through our Contact page for customized enterprise requirements."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What is ZABBRO's return and refund policy?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "ZABBRO offers a 30-day hassle-free return and refund guarantee on all eligible physical lifestyle and accessory products."
+                    }
+                }
+            ]
+        };
     }
 
     function updateProductSchema(product) {
@@ -133,6 +175,7 @@ const SEO = (function () {
     return {
         update,
         updateProductSchema,
+        getHomeFAQSchema,
         DEFAULT_TITLE,
         DEFAULT_DESC,
         BASE_URL
