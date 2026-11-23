@@ -34,4 +34,5 @@ server/*.log
 # Test Artifacts
 playwright-screenshots/
 test-results/
+playwright-report/
 

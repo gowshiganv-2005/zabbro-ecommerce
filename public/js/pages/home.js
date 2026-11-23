@@ -24,118 +24,117 @@ function renderHomePage() {
       </div>
     </section>
 
-    <!-- Services Section (On-Page SEO Rich) -->
-    <section class="section" id="services-section" style="background:var(--white);padding-bottom:40px" aria-label="ZABBRO Digital Services">
+    <!-- Section: Our Outcomes (Hudson Inspired Folio Layout) -->
+    <section class="section hudson-outcomes-section" id="exclusive-outcomes-section" aria-label="ZABBRO Outcomes">
       <div class="container">
-        <div class="section-header">
-          <div class="section-label">Digital Solutions &amp; Innovation</div>
-          <h2 class="section-title">Our Services: Web Development, AI &amp; Automation</h2>
-          <p class="section-subtitle">Empowering modern businesses and individuals with intelligent technology and bespoke digital systems.</p>
+        <!-- Hudson Style Section Header with large data-num="01" -->
+        <div class="hudson-section-header" data-num="01">
+          <h2 class="hudson-display-title">Our Outcomes.</h2>
         </div>
-        <div class="services-grid">
-          <!-- Website Services -->
-          <div class="service-card fade-in" style="animation-delay:.1s">
-            <div>
-              <div class="service-icon-wrap">
-                <i data-lucide="globe" style="width:26px;height:26px"></i>
+
+        <!-- Hudson 2-Column Folio Entries Grid -->
+        <div class="hudson-folio-entries">
+          <!-- Entry 01: Zabbro Digital Solutions -->
+          <div class="hudson-entry">
+            <a href="#/digital-solutions" class="hudson-entry-link" aria-label="Zabbro Digital Solutions">
+              <div class="hudson-entry-thumb">
+                <img src="/images/outcomes/hudson-wb2.jpg" alt="Zabbro Digital Solutions" loading="lazy">
               </div>
-              <span class="service-tag">Web &amp; E-Commerce</span>
-              <h3 class="service-title">Website Services</h3>
-              <p class="service-desc">Custom web application development, ultra-fast responsive design, and high-conversion e-commerce platforms engineered for growth.</p>
-            </div>
-            <a href="#/about#contact" class="service-link" aria-label="Explore ZABBRO Website Development Services">
-              <span>Explore Web Services</span>
-              <i data-lucide="arrow-right" style="width:16px;height:16px"></i>
+              <div class="hudson-entry-info">
+                <h4 class="hudson-entry-title">Zabbro Digital Solutions</h4>
+                <div class="hudson-entry-cat">Elevating Digital Presence &amp; Web Design</div>
+              </div>
             </a>
           </div>
 
-          <!-- Data Analysis and Reporting Services -->
-          <div class="service-card fade-in" style="animation-delay:.2s">
-            <div>
-              <div class="service-icon-wrap">
-                <i data-lucide="bar-chart-2" style="width:26px;height:26px"></i>
+          <!-- Entry 02: Zabbro Commerce -->
+          <div class="hudson-entry">
+            <a href="#/commerce" class="hudson-entry-link" aria-label="Zabbro Commerce">
+              <div class="hudson-entry-thumb">
+                <img src="/images/outcomes/zabbro-commerce-store.jpg" alt="Zabbro Commerce" loading="lazy">
               </div>
-              <span class="service-tag">Analytics &amp; Insights</span>
-              <h3 class="service-title">Data Analysis &amp; Reporting</h3>
-              <p class="service-desc">Transform raw data into actionable business intelligence with automated KPI dashboards, metrics, and forecasting models.</p>
-            </div>
-            <a href="#/about#contact" class="service-link" aria-label="Explore ZABBRO Data Analysis Services">
-              <span>Learn More</span>
-              <i data-lucide="arrow-right" style="width:16px;height:16px"></i>
+              <div class="hudson-entry-info">
+                <h4 class="hudson-entry-title">Zabbro Commerce</h4>
+                <div class="hudson-entry-cat">Empowering Online Brands &amp; Digital Store</div>
+              </div>
             </a>
           </div>
 
-          <!-- AI Services -->
-          <div class="service-card fade-in" style="animation-delay:.3s">
-            <div>
-              <div class="service-icon-wrap">
-                <i data-lucide="sparkles" style="width:26px;height:26px"></i>
+          <!-- Entry 03: WhatsApp Automations -->
+          <div class="hudson-entry">
+            <div class="hudson-entry-link hudson-entry-locked" tabindex="0">
+              <div class="hudson-entry-thumb">
+                <img src="/images/outcomes/hudson-cs3.jpg" alt="WhatsApp Automations - Coming Soon" loading="lazy">
               </div>
-              <span class="service-tag">Artificial Intelligence</span>
-              <h3 class="service-title">AI Services &amp; Models</h3>
-              <p class="service-desc">Cutting-edge machine learning solutions, predictive models, and custom AI automation workflows built to elevate enterprise efficiency.</p>
+              <div class="hudson-entry-info">
+                <h4 class="hudson-entry-title">WhatsApp Automations</h4>
+                <div class="hudson-entry-cat">Seamless Business Communication &amp; Digital Presence</div>
+              </div>
             </div>
-            <a href="#/about#contact" class="service-link" aria-label="Get ZABBRO Artificial Intelligence Solutions">
-              <span>Get AI Solutions</span>
-              <i data-lucide="arrow-right" style="width:16px;height:16px"></i>
-            </a>
           </div>
 
-          <!-- Chatbot Services -->
-          <div class="service-card fade-in" style="animation-delay:.4s">
-            <div>
-              <div class="service-icon-wrap">
-                <i data-lucide="bot" style="width:26px;height:26px"></i>
+          <!-- Entry 04: Zabbro RPT -->
+          <div class="hudson-entry">
+            <div class="hudson-entry-link hudson-entry-locked" tabindex="0">
+              <div class="hudson-entry-thumb">
+                <img src="/images/outcomes/hudson-cs3.jpg" alt="Zabbro RPT - Coming Soon" loading="lazy">
               </div>
-              <span class="service-tag">Conversational AI</span>
-              <h3 class="service-title">Intelligent Chatbot Systems</h3>
-              <p class="service-desc">Custom AI chatbots for 24/7 customer support automation, lead generation, WhatsApp CRM integration, and instant conversion.</p>
+              <div class="hudson-entry-info">
+                <h4 class="hudson-entry-title">Zabbro RPT</h4>
+                <div class="hudson-entry-cat">Our exclusive Research Pretrained Transformer LLM for research work</div>
+              </div>
             </div>
-            <a href="#/about#contact" class="service-link" aria-label="Deploy ZABBRO Chatbot Systems">
-              <span>Deploy Chatbot</span>
-              <i data-lucide="arrow-right" style="width:16px;height:16px"></i>
-            </a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Categories Section -->
-    <section class="section" id="categories-section" aria-label="ZABBRO Shop Categories">
+    <!-- Section 02: Our Achievements (Hudson Number Counters) -->
+    <section class="section hudson-achievements-section" id="achievements-section" aria-label="ZABBRO Achievements">
       <div class="container">
-        <div class="section-header">
-          <div class="section-label">Curated Collections</div>
-          <h2 class="section-title">Shop by Category</h2>
-          <p class="section-subtitle">Explore premium projects, apparel, handcrafted wooden items, tech gear, and smart living essentials.</p>
+        <!-- Hudson Style Section Header with large data-num="02" -->
+        <div class="hudson-section-header" data-num="02">
+          <h2 class="hudson-display-title">Our Achievements.</h2>
         </div>
-        <div class="categories-grid" id="categories-grid"></div>
-      </div>
-    </section>
 
-    <!-- Featured Products Section -->
-    <section class="section" style="background:var(--white);" aria-label="ZABBRO Featured Products">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-label">Handpicked by Editors</div>
-          <h2 class="section-title">Featured Products &amp; Innovations</h2>
-          <p class="section-subtitle">Our curated selection of premium products crafted for quality, durability, and aesthetics.</p>
-        </div>
-        <div class="product-grid" id="featured-products"></div>
-        <div style="text-align:center;margin-top:40px;">
-          <a href="#/products" class="btn btn-secondary" aria-label="View all ZABBRO products">View All Products</a>
-        </div>
-      </div>
-    </section>
+        <!-- 2x2 Counter Grid from Hudson -->
+        <div class="hudson-counter-grid">
+          <!-- Counter Item 1: Happy Customers -->
+          <div class="hudson-counter-item">
+            <div class="hudson-counter-num">80<span>+</span></div>
+            <h5 class="hudson-counter-title">Happy Customers</h5>
+            <p class="hudson-counter-desc">
+              Trusted by fast-growing enterprises, visionary entrepreneurs, and global consumers who rely on ZABBRO quality every single day.
+            </p>
+          </div>
 
-    <!-- Best Sellers Section -->
-    <section class="section" aria-label="ZABBRO Best Sellers">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-label">Top Rated &amp; Loved</div>
-          <h2 class="section-title">Best Sellers: Most Loved by Customers</h2>
-          <p class="section-subtitle">Explore the most popular items verified by our global community of buyers.</p>
+          <!-- Counter Item 2: Projects Completed -->
+          <div class="hudson-counter-item">
+            <div class="hudson-counter-num">120<span>+</span></div>
+            <h5 class="hudson-counter-title">Projects Completed</h5>
+            <p class="hudson-counter-desc">
+              High-impact websites, full-stack web applications, AI automation tools, and custom digital systems delivered on schedule.
+            </p>
+          </div>
+
+          <!-- Counter Item 3: Lines of Code -->
+          <div class="hudson-counter-item">
+            <div class="hudson-counter-num">23k<span>+</span></div>
+            <h5 class="hudson-counter-title">Lines of Code</h5>
+            <p class="hudson-counter-desc">
+              Clean, modular, and maintainable software architecture engineered with state-of-the-art frameworks and industry best practices.
+            </p>
+          </div>
+
+          <!-- Counter Item 4: Positive Feedback -->
+          <div class="hudson-counter-item">
+            <div class="hudson-counter-num">85<span>+</span></div>
+            <h5 class="hudson-counter-title">Positive Feedback</h5>
+            <p class="hudson-counter-desc">
+              Consistently rated with top satisfaction scores across product durability, web craft, communication, and post-launch support.
+            </p>
+          </div>
         </div>
-        <div class="product-grid" id="bestseller-products"></div>
       </div>
     </section>
 

@@ -29,6 +29,25 @@
                 });
                 renderHomePage();
                 break;
+            case 'digital-solutions':
+            case 'services':
+                setActiveNav('zds');
+                if (window.SEO) SEO.update({
+                    title: 'Zabbro Digital Solutions — Websites, AI, Data & Automation',
+                    description: 'Explore Zabbro Digital Solutions. Custom websites, intelligent AI models, data analytics, and chatbot automations.',
+                    canonicalPath: '#/digital-solutions'
+                });
+                renderServicesPage();
+                break;
+            case 'commerce':
+                setActiveNav('zec');
+                if (window.SEO) SEO.update({
+                    title: 'ZABBRO Commerce — Official Storefront & Collections',
+                    description: 'Explore ZABBRO Commerce. Curated Collections, handpicked products, bestsellers, and lifestyle essentials.',
+                    canonicalPath: '#/commerce'
+                });
+                renderCommercePage();
+                break;
             case 'products':
                 setActiveNav('products');
                 if (window.SEO) {
@@ -82,7 +101,11 @@
                 renderAccountPage(segments[1] || 'profile');
                 break;
             case 'about':
-                setActiveNav('about');
+                if (anchor === 'contact') {
+                    setActiveNav('contact');
+                } else {
+                    setActiveNav('about');
+                }
                 if (window.SEO) SEO.update({
                     title: 'About ZABBRO | Our Story & Zabbro Digital Solutions',
                     description: 'Discover the story behind ZABBRO, our mission, worldwide shipping, quality guarantees, and direct contact details in Madurai, India.',
@@ -126,8 +149,16 @@
         if (anchor) {
             setTimeout(() => {
                 const el = document.getElementById(anchor);
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }, 100);
+                if (el) {
+                    const headerOffset = 80;
+                    const elementPosition = el.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            }, 150);
         }
 
         // Update header Create Account btn visibility
