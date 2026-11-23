@@ -5235,11 +5235,19 @@ table {
 }
 
 @media (max-width: 640px) {
+  .hudson-folio-entries {
+    gap: 10px;
+    padding: 0 12px;
+    box-sizing: border-box;
+  }
   .hudson-entry {
-    width: 50%;
+    width: calc(50% - 5px);
+    border-radius: var(--radius-md, 10px);
+    overflow: hidden;
   }
   .hudson-entry-link {
     aspect-ratio: 1 / 1;
+    border-radius: var(--radius-md, 10px);
   }
   .hudson-entry-title {
     font-size: 0.95rem;
@@ -5255,11 +5263,22 @@ table {
 }
 
 @media (max-width: 380px) {
+  .hudson-folio-entries {
+    gap: 8px;
+    padding: 0 8px;
+  }
+  .hudson-entry {
+    width: calc(50% - 4px);
+    border-radius: 8px;
+  }
+  .hudson-entry-link {
+    border-radius: 8px;
+  }
   .hudson-entry-title {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
   }
   .hudson-entry-cat {
-    font-size: 0.65rem;
+    font-size: 0.62rem;
   }
 }
 
