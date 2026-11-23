@@ -5236,13 +5236,30 @@ table {
 
 @media (max-width: 640px) {
   .hudson-entry {
-    width: 100%;
+    width: 50%;
   }
   .hudson-entry-link {
-    aspect-ratio: 16 / 11;
+    aspect-ratio: 1 / 1;
+  }
+  .hudson-entry-title {
+    font-size: 0.95rem;
+    margin: 0 0 4px;
+  }
+  .hudson-entry-cat {
+    font-size: 0.72rem;
+    line-height: 1.3;
   }
   .hudson-section-header::before {
     font-size: 5rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .hudson-entry-title {
+    font-size: 0.85rem;
+  }
+  .hudson-entry-cat {
+    font-size: 0.65rem;
   }
 }
 
